@@ -1,0 +1,19 @@
+CREATE TABLE IF NOT EXISTS Usuario(
+	id_usuario serial PRIMARY KEY,
+	nome varchar(50) UNIQUE NOT NULL,
+	senha VARCHAR (50) NOT NULL,
+	email VARCHAR (355) UNIQUE NOT NULL,
+	criado_em TIMESTAMP NOT NULL,
+	ultimo_acesso TIMESTAMP
+)
+
+CREATE TABLE IF NOT EXISTS Grana(
+	id_grana serial PRIMARY KEY,
+	nome varchar(50) UNIQUE NOT NULL,
+	usuario integer NOT NULL,
+	mes integer NOT NULL,
+	ano integer NOT NULL,
+	criado_em TIMESTAMP NOT NULL,
+	ultima_modificacao TIMESTAMP,
+	CONSTRAINT usuario_fk FOREIGN KEY (usuario) REFERENCES Usuario (id_usuario) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION
+)

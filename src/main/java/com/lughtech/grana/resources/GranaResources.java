@@ -7,19 +7,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.lughtech.grana.domain.Pessoa;
-import com.lughtech.grana.services.PessoaService;
+import com.lughtech.grana.domain.Grana;
+import com.lughtech.grana.services.GranaService;
 
 @RestController
-@RequestMapping(value = "/pessoa")
-public class PessoaResources {
+@RequestMapping(value = "/grana")
+public class GranaResources {
 
 	@Autowired
-	private PessoaService pessoaService;
+	private GranaService granaService;
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public ResponseEntity<?> buscar(@PathVariable Integer id) {
-		Pessoa obj = pessoaService.buscarPessoa(id);
+		Grana obj = granaService.buscarGranaPorId(id);
 		return ResponseEntity.ok().body(obj);
 	}
+
 }
