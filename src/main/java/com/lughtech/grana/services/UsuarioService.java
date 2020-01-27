@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.lughtech.grana.domain.Usuario;
 import com.lughtech.grana.repositories.UsuarioRepository;
+import com.lughtech.grana.services.exceptions.ObjetoNaoEncontradoException;
 
 @Service
 public class UsuarioService {
@@ -20,7 +21,7 @@ public class UsuarioService {
 
 	public Usuario buscarPessoaPorId(Integer id) {
 		Optional<Usuario> obj = usuarioRepository.findById(id);
-		return obj.orElse(null);
+		return obj.orElseThrow(() -> new ObjetoNaoEncontradoException("Objeto do tipo " + Usuario.class.getSimpleName() + " não encontrado!"));
 	}
 
 }

@@ -1,12 +1,26 @@
 package com.lughtech.grana.domain;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 
-public class Grana {
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
+@Entity
+public class Grana implements Serializable {
+
+	private static final long serialVersionUID = 1L;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer idGrana;
 	private String nome;
-	private Integer usuario;
+	@ManyToOne
+	@JoinColumn(name = "id_usuario")
+	private Usuario usuario;
 	private Integer mes;
 	private Integer ano;
 	private Timestamp criadoEm;
@@ -16,7 +30,7 @@ public class Grana {
 
 	}
 
-	public Grana(String nome, Integer usuario, Integer mes, Integer ano) {
+	public Grana(String nome, Usuario usuario, Integer mes, Integer ano) {
 		super();
 		this.nome = nome;
 		this.usuario = usuario;
@@ -42,11 +56,11 @@ public class Grana {
 		this.nome = nome;
 	}
 
-	public Integer getUsuario() {
+	public Usuario getUsuario() {
 		return usuario;
 	}
 
-	public void setUsuario(Integer usuario) {
+	public void setUsuario(Usuario usuario) {
 		this.usuario = usuario;
 	}
 

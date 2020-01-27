@@ -2,11 +2,14 @@ package com.lughtech.grana.domain;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 @Entity
 public class Usuario implements Serializable {
@@ -20,6 +23,9 @@ public class Usuario implements Serializable {
 	private String email;
 	private Timestamp criadoEm;
 	private Timestamp ultimoAcesso;
+
+	@OneToMany(mappedBy = "usuario")
+	private List<Grana> granas = new ArrayList<>();
 
 	public Usuario() {
 	}
@@ -67,7 +73,7 @@ public class Usuario implements Serializable {
 	public Timestamp getCriadoEm() {
 		return criadoEm;
 	}
-	
+
 	public void setCriadoEm(Timestamp criadoEm) {
 		this.criadoEm = criadoEm;
 	}
