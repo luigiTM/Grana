@@ -21,8 +21,6 @@ public class Grana implements Serializable {
 	@ManyToOne
 	@JoinColumn(name = "id_usuario")
 	private Usuario usuario;
-	private Integer mes;
-	private Integer ano;
 	private Timestamp criadoEm;
 	private Timestamp modificadoEm;
 
@@ -34,8 +32,6 @@ public class Grana implements Serializable {
 		super();
 		this.nome = nome;
 		this.usuario = usuario;
-		this.mes = mes;
-		this.ano = ano;
 		this.criadoEm = new Timestamp(System.currentTimeMillis());
 		this.modificadoEm = null;
 	}
@@ -62,22 +58,6 @@ public class Grana implements Serializable {
 
 	public void setUsuario(Usuario usuario) {
 		this.usuario = usuario;
-	}
-
-	public Integer getMes() {
-		return mes;
-	}
-
-	public void setMes(Integer mes) {
-		this.mes = mes;
-	}
-
-	public Integer getAno() {
-		return ano;
-	}
-
-	public void setAno(Integer ano) {
-		this.ano = ano;
 	}
 
 	public Timestamp getCriadoEm() {

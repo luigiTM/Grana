@@ -34,7 +34,7 @@ public class Usuario implements Serializable {
 		this.nome = nome;
 		this.senha = senha;
 		this.email = email;
-		this.criadoEm = new Timestamp(System.currentTimeMillis());
+		this.criadoEm = null;
 		this.ultimoAcesso = null;
 	}
 

@@ -5,15 +5,37 @@ CREATE TABLE IF NOT EXISTS Usuario(
 	email VARCHAR (355) UNIQUE NOT NULL,
 	criado_em TIMESTAMP NOT NULL,
 	ultimo_acesso TIMESTAMP
-)
+);
 
 CREATE TABLE IF NOT EXISTS Grana(
 	id_grana serial PRIMARY KEY,
 	nome varchar(50) UNIQUE NOT NULL,
-	usuario integer NOT NULL,
-	mes integer NOT NULL,
-	ano integer NOT NULL,
+	id_usuario integer NOT NULL,
 	criado_em TIMESTAMP NOT NULL,
 	ultima_modificacao TIMESTAMP,
-	CONSTRAINT usuario_fk FOREIGN KEY (usuario) REFERENCES Usuario (id_usuario) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION
-)
+	CONSTRAINT usuario_fk FOREIGN KEY (id_usuario) REFERENCES Usuario (id_usuario) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION
+);
+
+CREATE TABLE IF NOT EXISTS Gasto(
+	id_gasto serial PRIMARY KEY,
+	id_grana integer NOT NULL,
+	tipo varchar(50) NOT NULL,
+	valor decimal(2) NOT NULL,
+	data_gasto date NOT NULL,
+	CONSTRAINT grana_fk FOREIGN KEY (id_grana) REFERENCES Grana (id_grana) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION
+);
+
+CREATE TABLE IF NOT EXISTS Pessoa(
+	id_pessoa serial PRIMARY KEY,
+	nome varchar(50) NOT NULL,
+	valor_gasto decimal(2) NOT NULL,
+	percentual_gasto decimal(5) NOT NULl,
+	id_usuario_criacao integer NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS Gasto_Pessoa(
+	id_gasto_fk integer NOT NULL,
+	id_pessoa_fk integer NOT NULL,
+	CONSTRAINT gasto_fk FOREIGN KEY (id_gasto_fk) REFERENCES Gasto (id_gasto) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION,
+	CONSTRAINT pessoa_fk FOREIGN KEY (id_pessoa_fk) REFERENCES Pessoa (id_pessoa) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION
+);
