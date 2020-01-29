@@ -2,7 +2,6 @@ CREATE TABLE IF NOT EXISTS Usuario(
 	id_usuario serial PRIMARY KEY,
 	nome varchar(50) UNIQUE NOT NULL,
 	senha VARCHAR (50) NOT NULL,
-	email VARCHAR (355) UNIQUE NOT NULL,
 	criado_em TIMESTAMP NOT NULL,
 	ultimo_acesso TIMESTAMP
 );
@@ -13,6 +12,7 @@ CREATE TABLE IF NOT EXISTS Grana(
 	id_usuario integer NOT NULL,
 	criado_em TIMESTAMP NOT NULL,
 	ultima_modificacao TIMESTAMP,
+	codigo_de_acesso varchar(256),
 	CONSTRAINT usuario_fk FOREIGN KEY (id_usuario) REFERENCES Usuario (id_usuario) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION
 );
 
@@ -38,4 +38,16 @@ CREATE TABLE IF NOT EXISTS Gasto_Pessoa(
 	id_pessoa_fk integer NOT NULL,
 	CONSTRAINT gasto_fk FOREIGN KEY (id_gasto_fk) REFERENCES Gasto (id_gasto) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION,
 	CONSTRAINT pessoa_fk FOREIGN KEY (id_pessoa_fk) REFERENCES Pessoa (id_pessoa) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION
+);
+
+CREATE TABLE IF NOT EXISTS TipoEmail(
+	id_tipo_email integer NOT NULL;
+	tipo varchar(50) NOT NULL;
+);
+
+CREATE TABEL IF NOT EXISTS Email(
+	id_tipo_email integer NOT NULL;
+	email varchar(50) NOT NULL;
+	id_dono_email integer NOT NULL;
+	CONSTRAINT id_tipo_email_fk (id_tipo_email) REFERENCES TipoEmail (id_tipo_email) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION,
 );

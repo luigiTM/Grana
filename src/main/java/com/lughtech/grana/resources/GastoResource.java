@@ -11,38 +11,38 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.lughtech.grana.domain.Grana;
-import com.lughtech.grana.services.GranaService;
+import com.lughtech.grana.domain.Gasto;
+import com.lughtech.grana.services.GastoService;
 
 @RestController
-@RequestMapping(value = "/grana")
-public class GranaResource {
+@RequestMapping(value = "/gasto")
+public class GastoResource {
 
 	@Autowired
-	private GranaService granaService;
+	private GastoService gastoService;
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
-	public ResponseEntity<Grana> buscarGranaPoId(@PathVariable Integer id) {
-		Grana grana = granaService.buscarGranaPorId(id);
-		return ResponseEntity.ok().body(grana);
+	public ResponseEntity<Gasto> buscarGastoPorId(@PathVariable Integer id) {
+		Gasto gasto = gastoService.buscarGastoPorId(id);
+		return ResponseEntity.ok().body(gasto);
 	}
 
 	@RequestMapping(method = RequestMethod.POST)
-	public ResponseEntity<Void> inserirGrana(@RequestBody Grana grana) {
-		grana = granaService.salvarGrana(grana);
-		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(grana.getIdGrana()).toUri();
+	public ResponseEntity<Void> inserirGasto(@RequestBody Gasto gasto) {
+		gasto = gastoService.salvarGasto(gasto);
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(gasto.getIdGasto()).toUri();
 		return ResponseEntity.created(uri).build();
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-	public ResponseEntity<Void> atualizarGrana(@RequestBody Grana grana, @PathVariable Integer id) {
-		grana = granaService.atualizarGrana(grana);
+	public ResponseEntity<Void> atualizarGasto(@RequestBody Gasto gasto, @PathVariable Integer id) {
+		gasto = gastoService.atualizarGasto(gasto);
 		return ResponseEntity.noContent().build();
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-	public ResponseEntity<Void> deletarGranaPorId(@PathVariable Integer id) {
-		granaService.deletarGranaPorId(id);
+	public ResponseEntity<Void> deletarGastoPorId(@PathVariable Integer id) {
+		gastoService.deletarGastoPorId(id);
 		return ResponseEntity.noContent().build();
 	}
 

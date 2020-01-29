@@ -4,10 +4,12 @@ import java.sql.Timestamp;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import com.lughtech.grana.domain.Grana;
 import com.lughtech.grana.repositories.GranaRepository;
+import com.lughtech.grana.services.exceptions.IntegridadeDeDadosException;
 import com.lughtech.grana.services.exceptions.ObjetoNaoEncontradoException;
 
 @Service
@@ -30,6 +32,15 @@ public class GranaService {
 	public Grana atualizarGrana(Grana Grana) {
 		buscarGranaPorId(Grana.getIdGrana());
 		return granaRepository.save(Grana);
+	}
+
+	public void deletarGranaPorId(Integer id) {
+		buscarGranaPorId(id);
+		try {
+			granaRepository.deleteById(id);
+		} catch (DataIntegrityViolationException integridadeException) {
+			throw new IntegridadeDeDadosException("");
+		}
 	}
 
 }

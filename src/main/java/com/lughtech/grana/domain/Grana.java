@@ -23,6 +23,7 @@ public class Grana implements Serializable {
 	private Usuario usuario;
 	private Timestamp criadoEm;
 	private Timestamp modificadoEm;
+	private String codigoDeAcesso;
 
 	public Grana() {
 
@@ -76,6 +77,14 @@ public class Grana implements Serializable {
 		this.modificadoEm = modificadoEm;
 	}
 
+	public String getCodigoDeAcesso() {
+		return codigoDeAcesso;
+	}
+
+	public void setCodigoDeAcesso(String codigoDeAcesso) {
+		this.codigoDeAcesso = codigoDeAcesso;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -100,5 +109,4 @@ public class Grana implements Serializable {
 			return false;
 		return true;
 	}
-
 }

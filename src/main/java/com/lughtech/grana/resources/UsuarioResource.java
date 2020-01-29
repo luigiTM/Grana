@@ -1,6 +1,8 @@
 package com.lughtech.grana.resources;
 
 import java.net.URI;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.lughtech.grana.domain.Usuario;
+import com.lughtech.grana.dto.UsuarioDTO;
 import com.lughtech.grana.services.UsuarioService;
 
 @RestController
@@ -22,9 +25,9 @@ public class UsuarioResource {
 	private UsuarioService usuarioService;
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
-	public ResponseEntity<Usuario> buscar(@PathVariable Integer id) {
-		Usuario obj = usuarioService.buscarUsuarioPorId(id);
-		return ResponseEntity.ok().body(obj);
+	public ResponseEntity<Usuario> buscarUsuarioPorId(@PathVariable Integer id) {
+		Usuario usuario = usuarioService.buscarUsuarioPorId(id);
+		return ResponseEntity.ok().body(usuario);
 	}
 
 	@RequestMapping(method = RequestMethod.POST)
@@ -39,4 +42,18 @@ public class UsuarioResource {
 		usuario = usuarioService.atualizarUsuario(usuario);
 		return ResponseEntity.noContent().build();
 	}
+
+	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+	public ResponseEntity<Void> deletarUsuarioPorId(@PathVariable Integer id) {
+		usuarioService.deletarUsuarioPorId(id);
+		return ResponseEntity.noContent().build();
+	}
+
+	@RequestMapping(method = RequestMethod.GET)
+	public ResponseEntity<List<UsuarioDTO>> buscarUsuarios() {
+		List<Usuario> usuarios = usuarioService.buscarUsuarios();
+		List<UsuarioDTO> usuariosDTO = usuarios.stream().map(usuario -> new UsuarioDTO(usuario)).collect(Collectors.toList());
+		return ResponseEntity.ok().body(usuariosDTO);
+	}
+
 }

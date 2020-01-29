@@ -1,0 +1,15 @@
+<!DOCTYPE xml>
+<project name="grana" default="construir">
+
+	<property name="jdk.version" value="1.8" />
+	<property name="name" value="projetoLinhaCodigo" />
+	<property name="src" value="src" />
+	<property name="target" value="target" />
+
+	<target name="compilar">
+		<mkdir dir="${target}" />
+		<javac srcdir="${src}" destdir="${target}" debug="on"
+			deprecation="on" />
+	</target>
+
+</project>

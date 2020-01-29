@@ -22,6 +22,7 @@ public class Pessoa implements Serializable {
 	private Float valorGasto;
 	private Float percentualGasto;
 	private Integer idUsuarioCriacao;
+	private String email;
 
 	@ManyToMany(mappedBy = "pessoas")
 	private List<Gasto> gastos = new ArrayList<Gasto>();
@@ -29,11 +30,12 @@ public class Pessoa implements Serializable {
 	public Pessoa() {
 	}
 
-	public Pessoa(Integer idPessoa, String nome, Float valorGasto, Float percentualGasto, Integer idUsuarioCriacao) {
+	public Pessoa(Integer idPessoa, String nome, Float valorGasto, Float percentualGasto, Integer idUsuarioCriacao, String email) {
 		this.nome = nome;
 		this.valorGasto = valorGasto;
 		this.percentualGasto = percentualGasto;
 		this.idUsuarioCriacao = idUsuarioCriacao;
+		this.email = email;
 	}
 
 	public Integer getIdPessoa() {
@@ -84,6 +86,14 @@ public class Pessoa implements Serializable {
 		this.gastos = gastos;
 	}
 
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -108,4 +118,5 @@ public class Pessoa implements Serializable {
 			return false;
 		return true;
 	}
+
 }
