@@ -1,4 +1,4 @@
-package com.lughtech.grana.services;
+package com.lughtech.grana.servicos;
 
 import java.util.Optional;
 
@@ -6,36 +6,36 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
-import com.lughtech.grana.domain.Gasto;
-import com.lughtech.grana.repositories.GastoRepository;
-import com.lughtech.grana.services.exceptions.IntegridadeDeDadosException;
-import com.lughtech.grana.services.exceptions.ObjetoNaoEncontradoException;
+import com.lughtech.grana.dominio.Gasto;
+import com.lughtech.grana.repositorio.GastoRepositorio;
+import com.lughtech.grana.servicos.excecoes.IntegridadeDeDadosException;
+import com.lughtech.grana.servicos.excecoes.ObjetoNaoEncontradoException;
 
 @Service
-public class GastoService {
+public class GastoServico {
 
 	@Autowired
-	private GastoRepository GastoRepository;
+	private GastoRepositorio gastoRepositorio;
 
 	public Gasto buscarGastoPorId(Integer id) {
-		Optional<Gasto> obj = GastoRepository.findById(id);
+		Optional<Gasto> obj = gastoRepositorio.findById(id);
 		return obj.orElseThrow(() -> new ObjetoNaoEncontradoException(Gasto.class.getSimpleName()));
 	}
 
 	public Gasto salvarGasto(Gasto Gasto) {
 		Gasto.setIdGasto(null);
-		return GastoRepository.save(Gasto);
+		return gastoRepositorio.save(Gasto);
 	}
 
 	public Gasto atualizarGasto(Gasto Gasto) {
 		buscarGastoPorId(Gasto.getIdGasto());
-		return GastoRepository.save(Gasto);
+		return gastoRepositorio.save(Gasto);
 	}
 
 	public void deletarGastoPorId(Integer id) {
 		buscarGastoPorId(id);
 		try {
-			GastoRepository.deleteById(id);
+			gastoRepositorio.deleteById(id);
 		} catch (DataIntegrityViolationException integridadeException) {
 			throw new IntegridadeDeDadosException("");
 		}

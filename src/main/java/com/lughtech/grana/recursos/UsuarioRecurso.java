@@ -1,4 +1,4 @@
-package com.lughtech.grana.resources;
+package com.lughtech.grana.recursos;
 
 import java.net.URI;
 import java.util.List;
@@ -17,54 +17,54 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.lughtech.grana.domain.Usuario;
+import com.lughtech.grana.dominio.Usuario;
 import com.lughtech.grana.dto.UsuarioDTO;
-import com.lughtech.grana.services.UsuarioService;
+import com.lughtech.grana.servicos.UsuarioServico;
 
 @RestController
 @RequestMapping(value = "/usuario")
-public class UsuarioResource {
+public class UsuarioRecurso {
 
 	@Autowired
-	private UsuarioService usuarioService;
+	private UsuarioServico usuarioServico;
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public ResponseEntity<Usuario> buscarUsuarioPorId(@PathVariable Integer id) {
-		Usuario usuario = usuarioService.buscarUsuarioPorId(id);
+		Usuario usuario = usuarioServico.buscarUsuarioPorId(id);
 		return ResponseEntity.ok().body(usuario);
 	}
 
 	@RequestMapping(method = RequestMethod.POST)
 	public ResponseEntity<Void> inserirUsuario(@Valid @RequestBody UsuarioDTO usuarioDTO) {
-		Usuario usuario = usuarioService.deUmDTO(usuarioDTO);
-		usuario = usuarioService.salvarUsuario(usuario);
+		Usuario usuario = usuarioServico.deUmDTO(usuarioDTO);
+		usuario = usuarioServico.salvarUsuario(usuario);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(usuario.getIdUsuario()).toUri();
 		return ResponseEntity.created(uri).build();
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
 	public ResponseEntity<Void> atualizarUsuario(@Valid @RequestBody UsuarioDTO usuarioDTO, @PathVariable Integer id) {
-		Usuario usuario = usuarioService.deUmDTO(usuarioDTO);
-		usuario = usuarioService.atualizarUsuario(usuario);
+		Usuario usuario = usuarioServico.deUmDTO(usuarioDTO);
+		usuario = usuarioServico.atualizarUsuario(usuario);
 		return ResponseEntity.noContent().build();
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
 	public ResponseEntity<Void> deletarUsuarioPorId(@PathVariable Integer id) {
-		usuarioService.deletarUsuarioPorId(id);
+		usuarioServico.deletarUsuarioPorId(id);
 		return ResponseEntity.noContent().build();
 	}
 
 	@RequestMapping(method = RequestMethod.GET)
 	public ResponseEntity<List<UsuarioDTO>> buscarUsuarios() {
-		List<Usuario> usuarios = usuarioService.buscarUsuarios();
+		List<Usuario> usuarios = usuarioServico.buscarUsuarios();
 		List<UsuarioDTO> usuariosDTO = usuarios.stream().map(usuario -> new UsuarioDTO(usuario)).collect(Collectors.toList());
 		return ResponseEntity.ok().body(usuariosDTO);
 	}
 
 	@RequestMapping(value = "/paginado", method = RequestMethod.GET)
 	public ResponseEntity<Page<UsuarioDTO>> buscarUsuariosPaginado(@RequestParam(value = "pagina", defaultValue = "0") Integer pagina, @RequestParam(value = "linhaPagina", defaultValue = "24") Integer linhaPagina, @RequestParam(value = "ordenacao", defaultValue = "nome") String ordenacao, @RequestParam(value = "pagina", defaultValue = "ASC") String direcao) {
-		Page<Usuario> usuarios = usuarioService.buscarUsuariosPaginado(pagina, linhaPagina, ordenacao, direcao);
+		Page<Usuario> usuarios = usuarioServico.buscarUsuariosPaginado(pagina, linhaPagina, ordenacao, direcao);
 		Page<UsuarioDTO> usuariosDTO = usuarios.map(usuario -> new UsuarioDTO(usuario));
 		return ResponseEntity.ok().body(usuariosDTO);
 	}

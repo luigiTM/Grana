@@ -1,4 +1,4 @@
-package com.lughtech.grana.resources;
+package com.lughtech.grana.recursos;
 
 import java.net.URI;
 
@@ -11,38 +11,38 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.lughtech.grana.domain.Gasto;
-import com.lughtech.grana.services.GastoService;
+import com.lughtech.grana.dominio.Gasto;
+import com.lughtech.grana.servicos.GastoServico;
 
 @RestController
 @RequestMapping(value = "/gasto")
-public class GastoResource {
+public class GastoRecurso {
 
 	@Autowired
-	private GastoService gastoService;
+	private GastoServico gastoServico;
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public ResponseEntity<Gasto> buscarGastoPorId(@PathVariable Integer id) {
-		Gasto gasto = gastoService.buscarGastoPorId(id);
+		Gasto gasto = gastoServico.buscarGastoPorId(id);
 		return ResponseEntity.ok().body(gasto);
 	}
 
 	@RequestMapping(method = RequestMethod.POST)
 	public ResponseEntity<Void> inserirGasto(@RequestBody Gasto gasto) {
-		gasto = gastoService.salvarGasto(gasto);
+		gasto = gastoServico.salvarGasto(gasto);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(gasto.getIdGasto()).toUri();
 		return ResponseEntity.created(uri).build();
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
 	public ResponseEntity<Void> atualizarGasto(@RequestBody Gasto gasto, @PathVariable Integer id) {
-		gasto = gastoService.atualizarGasto(gasto);
+		gasto = gastoServico.atualizarGasto(gasto);
 		return ResponseEntity.noContent().build();
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
 	public ResponseEntity<Void> deletarGastoPorId(@PathVariable Integer id) {
-		gastoService.deletarGastoPorId(id);
+		gastoServico.deletarGastoPorId(id);
 		return ResponseEntity.noContent().build();
 	}
 

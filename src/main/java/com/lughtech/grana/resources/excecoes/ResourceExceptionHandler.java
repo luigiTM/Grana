@@ -1,4 +1,4 @@
-package com.lughtech.grana.resources.exceptions;
+package com.lughtech.grana.resources.excecoes;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -7,8 +7,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
-import com.lughtech.grana.services.exceptions.IntegridadeDeDadosException;
-import com.lughtech.grana.services.exceptions.ObjetoNaoEncontradoException;
+import com.lughtech.grana.servicos.excecoes.IntegridadeDeDadosException;
+import com.lughtech.grana.servicos.excecoes.ObjetoNaoEncontradoException;
 
 @ControllerAdvice
 public class ResourceExceptionHandler {

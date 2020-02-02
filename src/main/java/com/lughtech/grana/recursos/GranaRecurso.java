@@ -1,4 +1,4 @@
-package com.lughtech.grana.resources;
+package com.lughtech.grana.recursos;
 
 import java.net.URI;
 
@@ -11,38 +11,38 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.lughtech.grana.domain.Pessoa;
-import com.lughtech.grana.services.PessoaService;
+import com.lughtech.grana.dominio.Grana;
+import com.lughtech.grana.servicos.GranaServico;
 
 @RestController
-@RequestMapping(value = "/Pessoa")
-public class PessoaResource {
+@RequestMapping(value = "/grana")
+public class GranaRecurso {
 
 	@Autowired
-	private PessoaService PessoaService;
+	private GranaServico granaServico;
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
-	public ResponseEntity<Pessoa> buscarPessoaPorId(@PathVariable Integer id) {
-		Pessoa Pessoa = PessoaService.buscarPessoaPorId(id);
-		return ResponseEntity.ok().body(Pessoa);
+	public ResponseEntity<Grana> buscarGranaPoId(@PathVariable Integer id) {
+		Grana grana = granaServico.buscarGranaPorId(id);
+		return ResponseEntity.ok().body(grana);
 	}
 
 	@RequestMapping(method = RequestMethod.POST)
-	public ResponseEntity<Void> inserirPessoa(@RequestBody Pessoa Pessoa) {
-		Pessoa = PessoaService.salvarPessoa(Pessoa);
-		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(Pessoa.getIdPessoa()).toUri();
+	public ResponseEntity<Void> inserirGrana(@RequestBody Grana grana) {
+		grana = granaServico.salvarGrana(grana);
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(grana.getIdGrana()).toUri();
 		return ResponseEntity.created(uri).build();
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-	public ResponseEntity<Void> atualizarPessoa(@RequestBody Pessoa Pessoa, @PathVariable Integer id) {
-		Pessoa = PessoaService.atualizarPessoa(Pessoa);
+	public ResponseEntity<Void> atualizarGrana(@RequestBody Grana grana, @PathVariable Integer id) {
+		grana = granaServico.atualizarGrana(grana);
 		return ResponseEntity.noContent().build();
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-	public ResponseEntity<Void> deletarPessoaPorId(@PathVariable Integer id) {
-		PessoaService.deletarPessoaPorId(id);
+	public ResponseEntity<Void> deletarGranaPorId(@PathVariable Integer id) {
+		granaServico.deletarGranaPorId(id);
 		return ResponseEntity.noContent().build();
 	}
 

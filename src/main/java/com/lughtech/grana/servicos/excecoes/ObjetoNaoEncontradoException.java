@@ -1,4 +1,4 @@
-package com.lughtech.grana.services.exceptions;
+package com.lughtech.grana.servicos.excecoes;
 
 public class ObjetoNaoEncontradoException extends RuntimeException {
 

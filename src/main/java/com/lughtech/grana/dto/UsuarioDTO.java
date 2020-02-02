@@ -6,7 +6,7 @@ import javax.validation.constraints.NotEmpty;
 
 import org.hibernate.validator.constraints.Length;
 
-import com.lughtech.grana.domain.Usuario;
+import com.lughtech.grana.dominio.Usuario;
 
 public class UsuarioDTO implements Serializable {
 

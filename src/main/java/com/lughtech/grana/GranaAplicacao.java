@@ -6,15 +6,15 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 
 @SpringBootApplication
-public class GranaApplication extends SpringBootServletInitializer {
+public class GranaAplicacao extends SpringBootServletInitializer {
 
 	public static void main(String[] args) {
-		SpringApplication.run(GranaApplication.class, args);
+		SpringApplication.run(GranaAplicacao.class, args);
 	}
 
 	@Override
 	protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
-		return builder.sources(GranaApplication.class);
+		return builder.sources(GranaAplicacao.class);
 	}
 
 }

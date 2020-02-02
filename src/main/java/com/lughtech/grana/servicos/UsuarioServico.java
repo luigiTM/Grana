@@ -1,4 +1,4 @@
-package com.lughtech.grana.services;
+package com.lughtech.grana.servicos;
 
 import java.sql.Timestamp;
 import java.util.List;
@@ -11,17 +11,17 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
-import com.lughtech.grana.domain.Usuario;
+import com.lughtech.grana.dominio.Usuario;
 import com.lughtech.grana.dto.UsuarioDTO;
-import com.lughtech.grana.repositories.UsuarioRepository;
-import com.lughtech.grana.services.exceptions.IntegridadeDeDadosException;
-import com.lughtech.grana.services.exceptions.ObjetoNaoEncontradoException;
+import com.lughtech.grana.repositorio.UsuarioRepositorio;
+import com.lughtech.grana.servicos.excecoes.IntegridadeDeDadosException;
+import com.lughtech.grana.servicos.excecoes.ObjetoNaoEncontradoException;
 
 @Service
-public class UsuarioService {
+public class UsuarioServico {
 
 	@Autowired
-	private UsuarioRepository usuarioRepositorio;
+	private UsuarioRepositorio usuarioRepositorio;
 
 	public Usuario buscarUsuarioPorId(Integer id) {
 		Optional<Usuario> obj = usuarioRepositorio.findById(id);

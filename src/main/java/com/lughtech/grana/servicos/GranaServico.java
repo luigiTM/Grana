@@ -1,4 +1,4 @@
-package com.lughtech.grana.services;
+package com.lughtech.grana.servicos;
 
 import java.sql.Timestamp;
 import java.util.Optional;
@@ -7,37 +7,37 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
-import com.lughtech.grana.domain.Grana;
-import com.lughtech.grana.repositories.GranaRepository;
-import com.lughtech.grana.services.exceptions.IntegridadeDeDadosException;
-import com.lughtech.grana.services.exceptions.ObjetoNaoEncontradoException;
+import com.lughtech.grana.dominio.Grana;
+import com.lughtech.grana.repositorio.GranaRepositorio;
+import com.lughtech.grana.servicos.excecoes.IntegridadeDeDadosException;
+import com.lughtech.grana.servicos.excecoes.ObjetoNaoEncontradoException;
 
 @Service
-public class GranaService {
+public class GranaServico {
 
 	@Autowired
-	private GranaRepository granaRepository;
+	private GranaRepositorio granaRepositorio;
 
 	public Grana buscarGranaPorId(Integer id) {
-		Optional<Grana> obj = granaRepository.findById(id);
+		Optional<Grana> obj = granaRepositorio.findById(id);
 		return obj.orElseThrow(() -> new ObjetoNaoEncontradoException("Objeto do tipo " + Grana.class.getSimpleName() + " não encontrado!"));
 	}
 
 	public Grana salvarGrana(Grana grana) {
 		grana.setIdGrana(null);
 		grana.setCriadoEm(new Timestamp(System.currentTimeMillis()));
-		return granaRepository.save(grana);
+		return granaRepositorio.save(grana);
 	}
 
 	public Grana atualizarGrana(Grana Grana) {
 		buscarGranaPorId(Grana.getIdGrana());
-		return granaRepository.save(Grana);
+		return granaRepositorio.save(Grana);
 	}
 
 	public void deletarGranaPorId(Integer id) {
 		buscarGranaPorId(id);
 		try {
-			granaRepository.deleteById(id);
+			granaRepositorio.deleteById(id);
 		} catch (DataIntegrityViolationException integridadeException) {
 			throw new IntegridadeDeDadosException("");
 		}

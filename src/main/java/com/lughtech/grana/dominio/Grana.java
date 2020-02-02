@@ -1,4 +1,4 @@
-package com.lughtech.grana.domain;
+package com.lughtech.grana.dominio;
 
 import java.io.Serializable;
 import java.sql.Timestamp;

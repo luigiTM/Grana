@@ -1,4 +1,4 @@
-package com.lughtech.grana.services;
+package com.lughtech.grana.servicos;
 
 import java.util.Optional;
 
@@ -6,36 +6,36 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
-import com.lughtech.grana.domain.Pessoa;
-import com.lughtech.grana.repositories.PessoaRepository;
-import com.lughtech.grana.services.exceptions.IntegridadeDeDadosException;
-import com.lughtech.grana.services.exceptions.ObjetoNaoEncontradoException;
+import com.lughtech.grana.dominio.Pessoa;
+import com.lughtech.grana.repositorio.PessoaRepositorio;
+import com.lughtech.grana.servicos.excecoes.IntegridadeDeDadosException;
+import com.lughtech.grana.servicos.excecoes.ObjetoNaoEncontradoException;
 
 @Service
-public class PessoaService {
+public class PessoaServico {
 
 	@Autowired
-	private PessoaRepository PessoaRepository;
+	private PessoaRepositorio pessoaRepositorio;
 
 	public Pessoa buscarPessoaPorId(Integer id) {
-		Optional<Pessoa> obj = PessoaRepository.findById(id);
+		Optional<Pessoa> obj = pessoaRepositorio.findById(id);
 		return obj.orElseThrow(() -> new ObjetoNaoEncontradoException(Pessoa.class.getSimpleName()));
 	}
 
 	public Pessoa salvarPessoa(Pessoa Pessoa) {
 		Pessoa.setIdPessoa(null);
-		return PessoaRepository.save(Pessoa);
+		return pessoaRepositorio.save(Pessoa);
 	}
 
 	public Pessoa atualizarPessoa(Pessoa Pessoa) {
 		buscarPessoaPorId(Pessoa.getIdPessoa());
-		return PessoaRepository.save(Pessoa);
+		return pessoaRepositorio.save(Pessoa);
 	}
 
 	public void deletarPessoaPorId(Integer id) {
 		buscarPessoaPorId(id);
 		try {
-			PessoaRepository.deleteById(id);
+			pessoaRepositorio.deleteById(id);
 		} catch (DataIntegrityViolationException integridadeException) {
 			throw new IntegridadeDeDadosException("");
 		}
