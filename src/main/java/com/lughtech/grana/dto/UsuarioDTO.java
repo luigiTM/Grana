@@ -2,14 +2,22 @@ package com.lughtech.grana.dto;
 
 import java.io.Serializable;
 
+import javax.validation.constraints.NotEmpty;
+
+import org.hibernate.validator.constraints.Length;
+
 import com.lughtech.grana.domain.Usuario;
 
 public class UsuarioDTO implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-
+	@NotEmpty
+	@Length(min = 5, max = 50)
 	private String nome;
+	@NotEmpty
+	@Length(min = 8)
 	private String senha;
+	@NotEmpty
 	private String email;
 
 	public UsuarioDTO() {
