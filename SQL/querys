@@ -12,7 +12,7 @@ CREATE TABLE IF NOT EXISTS Grana(
 	nome varchar(50) UNIQUE NOT NULL,
 	id_usuario integer NOT NULL,
 	criado_em TIMESTAMP NOT NULL,
-	ultima_modificacao TIMESTAMP,
+	modificado_em TIMESTAMP,
 	CONSTRAINT usuario_fk FOREIGN KEY (id_usuario) REFERENCES Usuario (id_usuario) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION
 );
 

@@ -5,10 +5,17 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
+import org.springframework.util.DigestUtils;
 
 import com.lughtech.grana.dominio.Grana;
+import com.lughtech.grana.dominio.Usuario;
+import com.lughtech.grana.dto.GranaDTO;
 import com.lughtech.grana.repositorio.GranaRepositorio;
+import com.lughtech.grana.repositorio.UsuarioRepositorio;
 import com.lughtech.grana.servicos.excecoes.IntegridadeDeDadosException;
 import com.lughtech.grana.servicos.excecoes.ObjetoNaoEncontradoException;
 
@@ -17,6 +24,8 @@ public class GranaServico {
 
 	@Autowired
 	private GranaRepositorio granaRepositorio;
+	@Autowired
+	private UsuarioRepositorio usuarioRepositorio;
 
 	public Grana buscarGranaPorId(Integer id) {
 		Optional<Grana> obj = granaRepositorio.findById(id);
@@ -26,12 +35,14 @@ public class GranaServico {
 	public Grana salvarGrana(Grana grana) {
 		grana.setIdGrana(null);
 		grana.setCriadoEm(new Timestamp(System.currentTimeMillis()));
+		grana.setCodigoDeAcesso(DigestUtils.md5DigestAsHex(grana.getCriadoEm().toString().getBytes()));
 		return granaRepositorio.save(grana);
 	}
 
-	public Grana atualizarGrana(Grana Grana) {
-		buscarGranaPorId(Grana.getIdGrana());
-		return granaRepositorio.save(Grana);
+	public Grana atualizarGrana(Grana grana) {
+		Grana novoGrana = buscarGranaPorId(grana.getIdGrana());
+		atualizarInformacoesGrana(grana, novoGrana);
+		return granaRepositorio.save(novoGrana);
 	}
 
 	public void deletarGranaPorId(Integer id) {
@@ -41,6 +52,22 @@ public class GranaServico {
 		} catch (DataIntegrityViolationException integridadeException) {
 			throw new IntegridadeDeDadosException("");
 		}
+	}
+
+	public Page<Grana> buscarGranasPaginado(Integer pagina, Integer linhaPagina, String ordenacao, String direcao) {
+		PageRequest requisicaoDePagina = PageRequest.of(pagina, linhaPagina, Direction.valueOf(direcao), ordenacao);
+		return granaRepositorio.findAll(requisicaoDePagina);
+	}
+
+	public Grana deUmDTO(GranaDTO granaDTO) {
+		Optional<Usuario> usuario = usuarioRepositorio.findById(granaDTO.getUsuario());
+		Grana grana = new Grana(granaDTO.getNome(), usuario.get());
+		return grana;
+	}
+
+	private void atualizarInformacoesGrana(Grana grana, Grana novoGrana) {
+		novoGrana.setNome(grana.getNome());
+		novoGrana.setModificadoEm(new Timestamp(System.currentTimeMillis()));
 	}
 
 }

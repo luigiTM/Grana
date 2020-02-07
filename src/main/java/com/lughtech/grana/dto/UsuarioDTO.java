@@ -11,13 +11,13 @@ import com.lughtech.grana.dominio.Usuario;
 public class UsuarioDTO implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	@NotEmpty
-	@Length(min = 5, max = 50)
+	@NotEmpty(message = "Nome não pode ser vazio")
+	@Length(min = 5, max = 50, message = "Nome deve ter entre 5 e 50 caracteres")
 	private String nome;
-	@NotEmpty
-	@Length(min = 8)
+	@NotEmpty(message = "Senha não pode ser vazia")
+	@Length(min = 8, message = "Senha deve ter no mínimo 8 caraceres")
 	private String senha;
-	@NotEmpty
+	@NotEmpty(message = "Email não pode ser vazio")
 	private String email;
 
 	public UsuarioDTO() {

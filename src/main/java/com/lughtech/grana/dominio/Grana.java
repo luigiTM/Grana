@@ -29,12 +29,12 @@ public class Grana implements Serializable {
 
 	}
 
-	public Grana(String nome, Usuario usuario, Integer mes, Integer ano) {
-		super();
+	public Grana(String nome, Usuario usuario) {
 		this.nome = nome;
 		this.usuario = usuario;
 		this.criadoEm = new Timestamp(System.currentTimeMillis());
 		this.modificadoEm = null;
+		this.codigoDeAcesso = null;
 	}
 
 	public Integer getIdGrana() {

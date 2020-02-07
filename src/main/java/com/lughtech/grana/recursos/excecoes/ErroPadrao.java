@@ -1,4 +1,4 @@
-package com.lughtech.grana.resources.excecoes;
+package com.lughtech.grana.recursos.excecoes;
 
 import java.io.Serializable;
 

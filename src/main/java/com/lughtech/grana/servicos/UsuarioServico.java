@@ -35,7 +35,8 @@ public class UsuarioServico {
 	}
 
 	public Usuario atualizarUsuario(Usuario usuario) {
-		buscarUsuarioPorId(usuario.getIdUsuario());
+		Usuario novoUsuario = buscarUsuarioPorId(usuario.getIdUsuario());
+		atualizaInformacoesUsuario(usuario, novoUsuario);
 		return usuarioRepositorio.save(usuario);
 	}
 
@@ -44,7 +45,7 @@ public class UsuarioServico {
 		try {
 			usuarioRepositorio.deleteById(id);
 		} catch (DataIntegrityViolationException integridadeException) {
-			throw new IntegridadeDeDadosException("");
+			throw new IntegridadeDeDadosException(Usuario.class.getSimpleName());
 		}
 	}
 
@@ -60,6 +61,12 @@ public class UsuarioServico {
 	public Usuario deUmDTO(UsuarioDTO usuarioDTO) {
 		Usuario usuario = new Usuario(usuarioDTO.getNome(), usuarioDTO.getEmail(), usuarioDTO.getSenha());
 		return usuario;
+	}
+
+	private void atualizaInformacoesUsuario(Usuario usuario, Usuario novoUsuario) {
+		novoUsuario.setNome(usuario.getNome());
+		novoUsuario.setEmail(usuario.getEmail());
+		novoUsuario.setSenha(usuario.getSenha());
 	}
 
 }
