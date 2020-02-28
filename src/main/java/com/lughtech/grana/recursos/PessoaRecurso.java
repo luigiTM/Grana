@@ -2,6 +2,8 @@ package com.lughtech.grana.recursos;
 
 import java.net.URI;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -12,10 +14,11 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.lughtech.grana.dominio.Pessoa;
+import com.lughtech.grana.dto.PessoaDTO;
 import com.lughtech.grana.servicos.PessoaServico;
 
 @RestController
-@RequestMapping(value = "/Pessoa")
+@RequestMapping(value = "/pessoa")
 public class PessoaRecurso {
 
 	@Autowired
@@ -28,9 +31,10 @@ public class PessoaRecurso {
 	}
 
 	@RequestMapping(method = RequestMethod.POST)
-	public ResponseEntity<Void> inserirPessoa(@RequestBody Pessoa Pessoa) {
-		Pessoa = pessoaServico.salvarPessoa(Pessoa);
-		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(Pessoa.getIdPessoa()).toUri();
+	public ResponseEntity<Void> inserirPessoa(@Valid @RequestBody PessoaDTO pessoaDTO) {
+		Pessoa novaPessoa = pessoaServico.deUmDTO(pessoaDTO);
+		novaPessoa = pessoaServico.salvarPessoa(novaPessoa);
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(novaPessoa.getIdPessoa()).toUri();
 		return ResponseEntity.created(uri).build();
 	}
 

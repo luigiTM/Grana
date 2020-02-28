@@ -7,7 +7,10 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import com.lughtech.grana.dominio.Pessoa;
+import com.lughtech.grana.dominio.Usuario;
+import com.lughtech.grana.dto.PessoaDTO;
 import com.lughtech.grana.repositorio.PessoaRepositorio;
+import com.lughtech.grana.repositorio.UsuarioRepositorio;
 import com.lughtech.grana.servicos.excecoes.IntegridadeDeDadosException;
 import com.lughtech.grana.servicos.excecoes.ObjetoNaoEncontradoException;
 
@@ -16,6 +19,8 @@ public class PessoaServico {
 
 	@Autowired
 	private PessoaRepositorio pessoaRepositorio;
+	@Autowired
+	private UsuarioRepositorio usuarioRepositorio;
 
 	public Pessoa buscarPessoaPorId(Integer id) {
 		Optional<Pessoa> obj = pessoaRepositorio.findById(id);
@@ -39,6 +44,12 @@ public class PessoaServico {
 		} catch (DataIntegrityViolationException integridadeException) {
 			throw new IntegridadeDeDadosException("");
 		}
+	}
+
+	public Pessoa deUmDTO(PessoaDTO pessoaDTO) {
+		Optional<Usuario> usuario = usuarioRepositorio.findById(pessoaDTO.getIdUsuarioCriacao());
+		Pessoa pessoa = new Pessoa(pessoaDTO.getNome(), usuario.get(), pessoaDTO.getEmail());
+		return pessoa;
 	}
 
 }

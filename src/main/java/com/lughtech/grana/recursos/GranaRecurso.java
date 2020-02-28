@@ -34,9 +34,9 @@ public class GranaRecurso {
 
 	@RequestMapping(method = RequestMethod.POST)
 	public ResponseEntity<Void> inserirGrana(@Valid @RequestBody GranaDTO granaDTO) {
-		Grana grana = granaServico.deUmDTO(granaDTO);
-		grana = granaServico.salvarGrana(grana);
-		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(grana.getIdGrana()).toUri();
+		Grana novoGrana = granaServico.deUmDTO(granaDTO);
+		novoGrana = granaServico.salvarGrana(novoGrana);
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(novoGrana.getIdGrana()).toUri();
 		return ResponseEntity.created(uri).build();
 	}
 

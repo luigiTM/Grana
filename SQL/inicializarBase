@@ -1,3 +1,7 @@
+DROP DATABASE grana;
+
+CREATE DATABASE grana TABLESPACE grana;
+
 CREATE TABLE IF NOT EXISTS Usuario(
 	id_usuario serial PRIMARY KEY,
 	nome varchar(50) UNIQUE NOT NULL,
@@ -42,3 +46,13 @@ CREATE TABLE IF NOT EXISTS Gasto_Pessoa(
 );
 
 ALTER TABLE Grana ADD COLUMN codigo_de_acesso varchar(256) UNIQUE NOT NULL;
+
+ALTER TABLE pessoa DROP COLUMN valor_gasto;
+ALTER TABLE pessoa DROP COLUMN percentual_gasto;
+
+ALTER TABLE gasto_pessoa ADD COLUMN valor_gasto decimal(2) NOT NULL;
+ALTER TABLE gasto_pessoa ADD COLUMN percentual_gasto decimal(5) NOT NULl;
+
+ALTER TABLE pessoa RENAME COLUMN id_usuario_criacao TO usuario_criacao;
+
+ALTER TABLE pessoa RENAME COLUMN id_usuario_criacao TO usuario_criacao;

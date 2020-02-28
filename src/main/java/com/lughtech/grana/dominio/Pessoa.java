@@ -8,7 +8,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 
 @Entity
 public class Pessoa implements Serializable {
@@ -19,9 +21,9 @@ public class Pessoa implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer idPessoa;
 	private String nome;
-	private Float valorGasto;
-	private Float percentualGasto;
-	private Integer idUsuarioCriacao;
+	@ManyToOne
+	@JoinColumn(name = "usuario_criacao")
+	private Usuario usuarioCriacao;
 	private String email;
 
 	@ManyToMany(mappedBy = "pessoas")
@@ -30,11 +32,9 @@ public class Pessoa implements Serializable {
 	public Pessoa() {
 	}
 
-	public Pessoa(Integer idPessoa, String nome, Float valorGasto, Float percentualGasto, Integer idUsuarioCriacao, String email) {
+	public Pessoa(String nome, Usuario usuarioCriacao, String email) {
 		this.nome = nome;
-		this.valorGasto = valorGasto;
-		this.percentualGasto = percentualGasto;
-		this.idUsuarioCriacao = idUsuarioCriacao;
+		this.usuarioCriacao = usuarioCriacao;
 		this.email = email;
 	}
 
@@ -54,28 +54,12 @@ public class Pessoa implements Serializable {
 		this.nome = nome;
 	}
 
-	public Float getValorGasto() {
-		return valorGasto;
+	public Usuario getusuarioCriacao() {
+		return usuarioCriacao;
 	}
 
-	public void setValorGasto(Float valorGasto) {
-		this.valorGasto = valorGasto;
-	}
-
-	public Float getPercentualGasto() {
-		return percentualGasto;
-	}
-
-	public void setPercentualGasto(Float percentualGasto) {
-		this.percentualGasto = percentualGasto;
-	}
-
-	public Integer getIdUsuarioCriacao() {
-		return idUsuarioCriacao;
-	}
-
-	public void setIdUsuarioCriacao(Integer idUsuarioCriacao) {
-		this.idUsuarioCriacao = idUsuarioCriacao;
+	public void setusuarioCriacao(Usuario usuarioCriacao) {
+		this.usuarioCriacao = usuarioCriacao;
 	}
 
 	public List<Gasto> getGastos() {
@@ -98,7 +82,7 @@ public class Pessoa implements Serializable {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((idUsuarioCriacao == null) ? 0 : idUsuarioCriacao.hashCode());
+		result = prime * result + ((usuarioCriacao == null) ? 0 : usuarioCriacao.hashCode());
 		return result;
 	}
 
@@ -111,10 +95,10 @@ public class Pessoa implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		Pessoa other = (Pessoa) obj;
-		if (idUsuarioCriacao == null) {
-			if (other.idUsuarioCriacao != null)
+		if (usuarioCriacao == null) {
+			if (other.usuarioCriacao != null)
 				return false;
-		} else if (!idUsuarioCriacao.equals(other.idUsuarioCriacao))
+		} else if (!usuarioCriacao.equals(other.usuarioCriacao))
 			return false;
 		return true;
 	}
