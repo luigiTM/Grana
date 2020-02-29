@@ -25,9 +25,9 @@ public class Gasto implements Serializable {
 	private Integer idGasto;
 	@ManyToOne
 	@JoinColumn(name = "id_grana")
-	private Grana idGrana;
+	private Grana grana;
 	private String tipo;
-	private Float gasto;
+	private Float valor;
 	private Date dataGasto;
 
 	@ManyToMany(cascade = CascadeType.ALL)
@@ -37,10 +37,10 @@ public class Gasto implements Serializable {
 	public Gasto() {
 	}
 
-	public Gasto(Integer idGasto, Grana idGrana, String tipo, Float gasto, Date dataGasto) {
-		this.idGrana = idGrana;
+	public Gasto(Grana grana, String tipo, Float valor, Date dataGasto) {
+		this.grana = grana;
 		this.tipo = tipo;
-		this.gasto = gasto;
+		this.valor = valor;
 		this.dataGasto = dataGasto;
 	}
 
@@ -52,12 +52,12 @@ public class Gasto implements Serializable {
 		this.idGasto = idGasto;
 	}
 
-	public Grana getIdGrana() {
-		return idGrana;
+	public Grana getGrana() {
+		return grana;
 	}
 
-	public void setIdGrana(Grana idGrana) {
-		this.idGrana = idGrana;
+	public void setGrana(Grana grana) {
+		this.grana = grana;
 	}
 
 	public String getTipo() {
@@ -68,12 +68,12 @@ public class Gasto implements Serializable {
 		this.tipo = tipo;
 	}
 
-	public Float getGasto() {
-		return gasto;
+	public Float getValor() {
+		return valor;
 	}
 
-	public void setGasto(Float gasto) {
-		this.gasto = gasto;
+	public void setValor(Float valor) {
+		this.valor = valor;
 	}
 
 	public Date getDataGasto() {

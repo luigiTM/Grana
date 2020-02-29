@@ -1,12 +1,16 @@
 package com.lughtech.grana.dto;
 
+import java.io.Serializable;
+
 import javax.validation.constraints.NotEmpty;
 
 import org.hibernate.validator.constraints.Length;
 
 import com.lughtech.grana.dominio.Grana;
 
-public class GranaDTO {
+public class GranaDTO implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	@NotEmpty(message = "Nome do Grana não pode ser vazio")
 	@Length(max = 50, message = "Nome do Grana não pode ter mais que 50 caracteres")

@@ -11,6 +11,7 @@ import com.lughtech.grana.dominio.Usuario;
 public class UsuarioDTO implements Serializable {
 
 	private static final long serialVersionUID = 1L;
+	
 	@NotEmpty(message = "Nome não pode ser vazio")
 	@Length(min = 5, max = 50, message = "Nome deve ter entre 5 e 50 caracteres")
 	private String nome;

@@ -56,3 +56,9 @@ ALTER TABLE gasto_pessoa ADD COLUMN percentual_gasto decimal(5) NOT NULl;
 ALTER TABLE pessoa RENAME COLUMN id_usuario_criacao TO usuario_criacao;
 
 ALTER TABLE pessoa RENAME COLUMN id_usuario_criacao TO usuario_criacao;
+
+ALTER TABLE gasto ALTER COLUMN valor TYPE DECIMAL(50,2);
+
+ALTER TABLE gasto_pessoa ALTER COLUMN valor_gasto TYPE DECIMAL(50,2);
+
+ALTER TABLE gasto_pessoa ALTER COLUMN percentual_gasto TYPE DECIMAL(5,5);

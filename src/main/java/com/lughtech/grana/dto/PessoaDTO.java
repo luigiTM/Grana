@@ -1,10 +1,14 @@
 package com.lughtech.grana.dto;
 
+import java.io.Serializable;
+
 import javax.validation.constraints.NotEmpty;
 
 import org.hibernate.validator.constraints.Length;
 
-public class PessoaDTO {
+public class PessoaDTO implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	@NotEmpty(message = "Nome da pessoa não pode ser vazio")
 	@Length(max = 15, message = "Nome da pessoa não pode ter mais que 15 caracteres")

@@ -4,6 +4,9 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import com.lughtech.grana.dominio.Pessoa;
@@ -46,9 +49,14 @@ public class PessoaServico {
 		}
 	}
 
+	public Page<Pessoa> buscarPessoasPaginado(Integer pagina, Integer linhaPagina, String ordenacao, String direcao) {
+		PageRequest requisicaoDePagina = PageRequest.of(pagina, linhaPagina, Direction.valueOf(direcao), ordenacao);
+		return pessoaRepositorio.findAll(requisicaoDePagina);
+	}
+
 	public Pessoa deUmDTO(PessoaDTO pessoaDTO) {
-		Optional<Usuario> usuario = usuarioRepositorio.findById(pessoaDTO.getIdUsuarioCriacao());
-		Pessoa pessoa = new Pessoa(pessoaDTO.getNome(), usuario.get(), pessoaDTO.getEmail());
+		Usuario usuario = usuarioRepositorio.getOne(pessoaDTO.getIdUsuarioCriacao());
+		Pessoa pessoa = new Pessoa(pessoaDTO.getNome(), usuario, pessoaDTO.getEmail());
 		return pessoa;
 	}
 

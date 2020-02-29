@@ -2,6 +2,8 @@ package com.lughtech.grana.recursos;
 
 import java.net.URI;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.lughtech.grana.dominio.Gasto;
+import com.lughtech.grana.dto.GastoDTO;
 import com.lughtech.grana.servicos.GastoServico;
 
 @RestController
@@ -28,7 +31,8 @@ public class GastoRecurso {
 	}
 
 	@RequestMapping(method = RequestMethod.POST)
-	public ResponseEntity<Void> inserirGasto(@RequestBody Gasto gasto) {
+	public ResponseEntity<Void> inserirGasto(@Valid @RequestBody GastoDTO gastoDTO) {
+		Gasto gasto = gastoServico.deUmDTO(gastoDTO);
 		gasto = gastoServico.salvarGasto(gasto);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(gasto.getIdGasto()).toUri();
 		return ResponseEntity.created(uri).build();
