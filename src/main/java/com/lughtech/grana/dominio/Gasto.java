@@ -2,17 +2,12 @@ package com.lughtech.grana.dominio;
 
 import java.io.Serializable;
 import java.sql.Date;
-import java.util.ArrayList;
-import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 
 @Entity
@@ -29,10 +24,6 @@ public class Gasto implements Serializable {
 	private String tipo;
 	private Float valor;
 	private Date dataGasto;
-
-	@ManyToMany(cascade = CascadeType.ALL)
-	@JoinTable(name = "Gasto_Pessoa", joinColumns = @JoinColumn(name = "gasto_id"), inverseJoinColumns = @JoinColumn(name = "pessoa_id"))
-	private List<Pessoa> pessoas = new ArrayList<>();
 
 	public Gasto() {
 	}

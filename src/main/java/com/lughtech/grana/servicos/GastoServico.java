@@ -27,14 +27,15 @@ public class GastoServico {
 		return obj.orElseThrow(() -> new ObjetoNaoEncontradoException(Gasto.class.getSimpleName()));
 	}
 
-	public Gasto salvarGasto(Gasto Gasto) {
-		Gasto.setIdGasto(null);
-		return gastoRepositorio.save(Gasto);
+	public Gasto salvarGasto(Gasto gasto) {
+		gasto.setIdGasto(null);
+		return gastoRepositorio.save(gasto);
 	}
 
-	public Gasto atualizarGasto(Gasto Gasto) {
-		buscarGastoPorId(Gasto.getIdGasto());
-		return gastoRepositorio.save(Gasto);
+	public Gasto atualizarGasto(Gasto gasto) {
+		Gasto novoGasto = buscarGastoPorId(gasto.getIdGasto());
+		atualizarInformacoesGasto(novoGasto, gasto);
+		return gastoRepositorio.save(novoGasto);
 	}
 
 	public void deletarGastoPorId(Integer id) {
@@ -47,8 +48,19 @@ public class GastoServico {
 	}
 
 	public Gasto deUmDTO(GastoDTO gastoDTO) {
-		Grana grana = granaRepositorio.getOne(gastoDTO.getIdGrana());
-		Gasto gasto = new Gasto(grana, gastoDTO.getTipo(), gastoDTO.getGasto(), gastoDTO.getDataGasto());
+		Gasto gasto;
+		if (gastoDTO.getIdGrana() == null) {
+			gasto = new Gasto(null, gastoDTO.getTipo(), gastoDTO.getValor(), gastoDTO.getDataGasto());
+		} else {
+			Grana grana = granaRepositorio.getOne(gastoDTO.getIdGrana());
+			gasto = new Gasto(grana, gastoDTO.getTipo(), gastoDTO.getValor(), gastoDTO.getDataGasto());
+		}
 		return gasto;
+	}
+
+	private void atualizarInformacoesGasto(Gasto novoGasto, Gasto gasto) {
+		novoGasto.setDataGasto((gasto.getDataGasto() == null) ? novoGasto.getDataGasto() : gasto.getDataGasto());
+		novoGasto.setTipo((gasto.getTipo() == null) ? novoGasto.getTipo() : gasto.getTipo());
+		novoGasto.setValor((gasto.getValor() == null) ? novoGasto.getValor() : gasto.getValor());
 	}
 }

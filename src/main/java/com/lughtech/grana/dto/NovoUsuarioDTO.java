@@ -7,14 +7,13 @@ import javax.validation.constraints.NotEmpty;
 import org.hibernate.validator.constraints.Length;
 
 import com.lughtech.grana.dominio.Usuario;
-import com.lughtech.grana.servicos.validacao.UsuarioAtualizacao;
+import com.lughtech.grana.servicos.validacao.UsuarioInsercao;
 
-@UsuarioAtualizacao
-public class UsuarioDTO implements Serializable {
+@UsuarioInsercao
+public class NovoUsuarioDTO implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	private Integer idUsuario;
 	@NotEmpty(message = "Nome não pode ser vazio")
 	@Length(min = 5, max = 50, message = "Nome deve ter entre 5 e 50 caracteres")
 	private String nome;
@@ -24,12 +23,11 @@ public class UsuarioDTO implements Serializable {
 	@NotEmpty(message = "Email não pode ser vazio")
 	private String email;
 
-	public UsuarioDTO() {
+	public NovoUsuarioDTO() {
 		super();
 	}
 
-	public UsuarioDTO(Usuario usuario) {
-		this.idUsuario = usuario.getIdUsuario();
+	public NovoUsuarioDTO(Usuario usuario) {
 		this.nome = usuario.getNome();
 		this.senha = usuario.getSenha();
 		this.email = usuario.getEmail();
@@ -57,14 +55,6 @@ public class UsuarioDTO implements Serializable {
 
 	public void setEmail(String email) {
 		this.email = email;
-	}
-
-	public Integer getIdUsuario() {
-		return idUsuario;
-	}
-
-	public void setIdUsuario(Integer idUsuario) {
-		this.idUsuario = idUsuario;
 	}
 
 }

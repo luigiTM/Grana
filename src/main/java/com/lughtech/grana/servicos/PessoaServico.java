@@ -35,9 +35,10 @@ public class PessoaServico {
 		return pessoaRepositorio.save(Pessoa);
 	}
 
-	public Pessoa atualizarPessoa(Pessoa Pessoa) {
-		buscarPessoaPorId(Pessoa.getIdPessoa());
-		return pessoaRepositorio.save(Pessoa);
+	public Pessoa atualizarPessoa(Pessoa pessoa) {
+		Pessoa novaPessoa = buscarPessoaPorId(pessoa.getIdPessoa());
+		atualizarInformacoesPessoa(novaPessoa, pessoa);
+		return pessoaRepositorio.save(novaPessoa);
 	}
 
 	public void deletarPessoaPorId(Integer id) {
@@ -55,9 +56,18 @@ public class PessoaServico {
 	}
 
 	public Pessoa deUmDTO(PessoaDTO pessoaDTO) {
-		Usuario usuario = usuarioRepositorio.getOne(pessoaDTO.getIdUsuarioCriacao());
-		Pessoa pessoa = new Pessoa(pessoaDTO.getNome(), usuario, pessoaDTO.getEmail());
+		Pessoa pessoa;
+		if (pessoaDTO.getIdUsuarioCriacao() == null) {
+			pessoa = new Pessoa(pessoaDTO.getNome(), null, pessoaDTO.getEmail());
+		} else {
+			Usuario usuario = usuarioRepositorio.getOne(pessoaDTO.getIdUsuarioCriacao());
+			pessoa = new Pessoa(pessoaDTO.getNome(), usuario, pessoaDTO.getEmail());
+		}
 		return pessoa;
+	}
+
+	private void atualizarInformacoesPessoa(Pessoa novaPessoa, Pessoa pessoa) {
+		novaPessoa.setEmail(pessoa.getEmail());
 	}
 
 }

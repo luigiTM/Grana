@@ -60,8 +60,13 @@ public class GranaServico {
 	}
 
 	public Grana deUmDTO(GranaDTO granaDTO) {
-		Usuario usuario = usuarioRepositorio.getOne(granaDTO.getUsuario());
-		Grana grana = new Grana(granaDTO.getNome(), usuario);
+		Grana grana;
+		if (granaDTO.getUsuario() == null) {
+			grana = new Grana(granaDTO.getNome(), null);
+		} else {
+			Usuario usuario = usuarioRepositorio.getOne(granaDTO.getUsuario());
+			grana = new Grana(granaDTO.getNome(), usuario);
+		}
 		return grana;
 	}
 

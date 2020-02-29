@@ -12,6 +12,7 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import com.lughtech.grana.dominio.Usuario;
+import com.lughtech.grana.dto.NovoUsuarioDTO;
 import com.lughtech.grana.dto.UsuarioDTO;
 import com.lughtech.grana.repositorio.UsuarioRepositorio;
 import com.lughtech.grana.servicos.excecoes.IntegridadeDeDadosException;
@@ -37,7 +38,7 @@ public class UsuarioServico {
 	public Usuario atualizarUsuario(Usuario usuario) {
 		Usuario novoUsuario = buscarUsuarioPorId(usuario.getIdUsuario());
 		atualizaInformacoesUsuario(usuario, novoUsuario);
-		return usuarioRepositorio.save(usuario);
+		return usuarioRepositorio.save(novoUsuario);
 	}
 
 	public void deletarUsuarioPorId(Integer id) {
@@ -63,10 +64,15 @@ public class UsuarioServico {
 		return usuario;
 	}
 
+	public Usuario deUmDTO(NovoUsuarioDTO novoUsuarioDTO) {
+		Usuario usuario = new Usuario(novoUsuarioDTO.getNome(), novoUsuarioDTO.getEmail(), novoUsuarioDTO.getSenha());
+		return usuario;
+	}
+
 	private void atualizaInformacoesUsuario(Usuario usuario, Usuario novoUsuario) {
-		novoUsuario.setNome(usuario.getNome());
-		novoUsuario.setEmail(usuario.getEmail());
-		novoUsuario.setSenha(usuario.getSenha());
+		novoUsuario.setNome((usuario.getNome() == null) ? novoUsuario.getNome() : usuario.getNome());
+		novoUsuario.setEmail((usuario.getEmail() == null) ? novoUsuario.getEmail() : usuario.getEmail());
+		novoUsuario.setSenha((usuario.getSenha() == null) ? novoUsuario.getSenha() : usuario.getSenha());
 	}
 
 }

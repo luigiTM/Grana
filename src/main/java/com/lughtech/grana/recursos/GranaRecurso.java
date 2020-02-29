@@ -41,7 +41,9 @@ public class GranaRecurso {
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-	public ResponseEntity<Void> atualizarGrana(@Valid @RequestBody Grana grana, @PathVariable Integer id) {
+	public ResponseEntity<Void> atualizarGrana(@Valid @RequestBody GranaDTO granaDTO, @PathVariable Integer id) {
+		Grana grana = granaServico.deUmDTO(granaDTO);
+		grana.setIdGrana(id);
 		grana = granaServico.atualizarGrana(grana);
 		return ResponseEntity.noContent().build();
 	}

@@ -62,3 +62,8 @@ ALTER TABLE gasto ALTER COLUMN valor TYPE DECIMAL(50,2);
 ALTER TABLE gasto_pessoa ALTER COLUMN valor_gasto TYPE DECIMAL(50,2);
 
 ALTER TABLE gasto_pessoa ALTER COLUMN percentual_gasto TYPE DECIMAL(5,5);
+
+ALTER TABLE gasto_pessoa RENAME COLUMN id_gasto_fk TO id_gasto;
+ALTER TABLE gasto_pessoa RENAME COLUMN id_pessoa_fk TO id_pessoa;
+
+ALTER TABLE gasto_pessoa ADD COLUMN id_gasto_pessoa serial PRIMARY KEY

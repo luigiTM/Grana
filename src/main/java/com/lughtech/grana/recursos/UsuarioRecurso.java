@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.lughtech.grana.dominio.Usuario;
+import com.lughtech.grana.dto.NovoUsuarioDTO;
 import com.lughtech.grana.dto.UsuarioDTO;
 import com.lughtech.grana.servicos.UsuarioServico;
 
@@ -35,8 +36,8 @@ public class UsuarioRecurso {
 	}
 
 	@RequestMapping(method = RequestMethod.POST)
-	public ResponseEntity<Void> inserirUsuario(@Valid @RequestBody UsuarioDTO usuarioDTO) {
-		Usuario usuario = usuarioServico.deUmDTO(usuarioDTO);
+	public ResponseEntity<Void> inserirUsuario(@Valid @RequestBody NovoUsuarioDTO novoUsuarioDTO) {
+		Usuario usuario = usuarioServico.deUmDTO(novoUsuarioDTO);
 		usuario = usuarioServico.salvarUsuario(usuario);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(usuario.getIdUsuario()).toUri();
 		return ResponseEntity.created(uri).build();
@@ -45,6 +46,7 @@ public class UsuarioRecurso {
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
 	public ResponseEntity<Void> atualizarUsuario(@Valid @RequestBody UsuarioDTO usuarioDTO, @PathVariable Integer id) {
 		Usuario usuario = usuarioServico.deUmDTO(usuarioDTO);
+		usuario.setIdUsuario(id);
 		usuario = usuarioServico.atualizarUsuario(usuario);
 		return ResponseEntity.noContent().build();
 	}

@@ -1,15 +1,12 @@
 package com.lughtech.grana.dominio;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 
 @Entity
@@ -25,9 +22,6 @@ public class Pessoa implements Serializable {
 	@JoinColumn(name = "usuario_criacao")
 	private Usuario usuarioCriacao;
 	private String email;
-
-	@ManyToMany(mappedBy = "pessoas")
-	private List<Gasto> gastos = new ArrayList<Gasto>();
 
 	public Pessoa() {
 	}
@@ -60,14 +54,6 @@ public class Pessoa implements Serializable {
 
 	public void setusuarioCriacao(Usuario usuarioCriacao) {
 		this.usuarioCriacao = usuarioCriacao;
-	}
-
-	public List<Gasto> getGastos() {
-		return gastos;
-	}
-
-	public void setGastos(List<Gasto> gastos) {
-		this.gastos = gastos;
 	}
 
 	public String getEmail() {
