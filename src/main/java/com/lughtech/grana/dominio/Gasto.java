@@ -2,6 +2,8 @@ package com.lughtech.grana.dominio;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -9,6 +11,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 public class Gasto implements Serializable {
@@ -20,10 +26,15 @@ public class Gasto implements Serializable {
 	private Integer idGasto;
 	@ManyToOne
 	@JoinColumn(name = "id_grana")
+	@JsonBackReference
 	private Grana grana;
 	private String tipo;
 	private Float valor;
 	private Date dataGasto;
+
+	@JsonManagedReference
+	@OneToMany(mappedBy = "gasto")
+	private List<GastoPessoa> gastosPessoas = new ArrayList<GastoPessoa>();
 
 	public Gasto() {
 	}
@@ -75,6 +86,14 @@ public class Gasto implements Serializable {
 		this.dataGasto = dataGasto;
 	}
 
+	public List<GastoPessoa> getGastosPessoas() {
+		return gastosPessoas;
+	}
+
+	public void setGastosPessoas(List<GastoPessoa> gastosPessoas) {
+		this.gastosPessoas = gastosPessoas;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -99,5 +118,4 @@ public class Gasto implements Serializable {
 			return false;
 		return true;
 	}
-
 }

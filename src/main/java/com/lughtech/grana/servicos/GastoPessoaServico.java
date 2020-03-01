@@ -44,7 +44,11 @@ public class GastoPessoaServico {
 	}
 
 	public List<GastoPessoa> buscarGastoPessoaPorGasto(Integer idGasto) {
-		return null;
+		return gastoPessoaRepositorio.buscarGastoPessoaPorIdGasto(idGasto);
+	}
+
+	public List<GastoPessoa> buscarQantidadeGastoPessoa(Integer idGasto, Integer idPessoa) {
+		return gastoPessoaRepositorio.buscarQantidadeGastoPessoa(idGasto, idPessoa);
 	}
 
 	public void deletarGastoPessoaPorId(Integer id) {
@@ -68,7 +72,8 @@ public class GastoPessoaServico {
 		return gastoPessoa;
 	}
 
-	private void atualizarInformacoesGastoPessoa(GastoPessoa novoGastoPessoa, GastoPessoa GastoPessoa) {
-
+	private void atualizarInformacoesGastoPessoa(GastoPessoa novoGastoPessoa, GastoPessoa gastoPessoa) {
+		novoGastoPessoa.setValorGasto((gastoPessoa.getValorGasto() == null ? novoGastoPessoa.getPercentualGasto() : gastoPessoa.getPercentualGasto()));
+		novoGastoPessoa.setPercentualGasto((gastoPessoa.getPercentualGasto() == null ? novoGastoPessoa.getPercentualGasto() : gastoPessoa.getPercentualGasto()));
 	}
 }

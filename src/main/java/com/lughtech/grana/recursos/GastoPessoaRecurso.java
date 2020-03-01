@@ -41,7 +41,7 @@ public class GastoPessoaRecurso {
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-	public ResponseEntity<Void> atualizarGasto(@RequestBody GastoPessoaDTO gastoPessoaDTO, @PathVariable Integer id) {
+	public ResponseEntity<Void> atualizarGasto(@Valid @RequestBody GastoPessoaDTO gastoPessoaDTO, @PathVariable Integer id) {
 		GastoPessoa gastoPessoa = gastoPessoaServico.deUmDTO(gastoPessoaDTO);
 		gastoPessoa.setIdGastoPessoa(id);
 		gastoPessoa = gastoPessoaServico.atualizarGastoPessoa(gastoPessoa);

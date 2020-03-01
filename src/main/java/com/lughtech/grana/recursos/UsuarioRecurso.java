@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.lughtech.grana.dominio.Usuario;
-import com.lughtech.grana.dto.NovoUsuarioDTO;
 import com.lughtech.grana.dto.UsuarioDTO;
 import com.lughtech.grana.servicos.UsuarioServico;
 
@@ -36,8 +35,8 @@ public class UsuarioRecurso {
 	}
 
 	@RequestMapping(method = RequestMethod.POST)
-	public ResponseEntity<Void> inserirUsuario(@Valid @RequestBody NovoUsuarioDTO novoUsuarioDTO) {
-		Usuario usuario = usuarioServico.deUmDTO(novoUsuarioDTO);
+	public ResponseEntity<Void> inserirUsuario(@Valid @RequestBody UsuarioDTO UsuarioDTO) {
+		Usuario usuario = usuarioServico.deUmDTO(UsuarioDTO);
 		usuario = usuarioServico.salvarUsuario(usuario);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(usuario.getIdUsuario()).toUri();
 		return ResponseEntity.created(uri).build();

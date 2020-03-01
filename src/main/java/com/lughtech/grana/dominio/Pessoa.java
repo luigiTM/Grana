@@ -9,6 +9,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Entity
 public class Pessoa implements Serializable {
 
@@ -20,6 +22,7 @@ public class Pessoa implements Serializable {
 	private String nome;
 	@ManyToOne
 	@JoinColumn(name = "usuario_criacao")
+	@JsonBackReference
 	private Usuario usuarioCriacao;
 	private String email;
 

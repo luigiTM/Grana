@@ -2,6 +2,8 @@ package com.lughtech.grana.dominio;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -9,6 +11,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 public class Grana implements Serializable {
@@ -20,10 +26,15 @@ public class Grana implements Serializable {
 	private String nome;
 	@ManyToOne
 	@JoinColumn(name = "id_usuario")
+	@JsonBackReference
 	private Usuario usuario;
 	private Timestamp criadoEm;
 	private Timestamp modificadoEm;
 	private String codigoDeAcesso;
+	
+	@JsonManagedReference
+	@OneToMany(mappedBy = "grana")
+	private Set<Gasto> gastos = new HashSet<>();
 
 	public Grana() {
 
@@ -83,6 +94,14 @@ public class Grana implements Serializable {
 
 	public void setCodigoDeAcesso(String codigoDeAcesso) {
 		this.codigoDeAcesso = codigoDeAcesso;
+	}
+
+	public Set<Gasto> getGastos() {
+		return gastos;
+	}
+
+	public void setGastos(Set<Gasto> gastos) {
+		this.gastos = gastos;
 	}
 
 	@Override

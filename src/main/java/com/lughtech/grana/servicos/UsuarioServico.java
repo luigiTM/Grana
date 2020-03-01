@@ -12,7 +12,6 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import com.lughtech.grana.dominio.Usuario;
-import com.lughtech.grana.dto.NovoUsuarioDTO;
 import com.lughtech.grana.dto.UsuarioDTO;
 import com.lughtech.grana.repositorio.UsuarioRepositorio;
 import com.lughtech.grana.servicos.excecoes.IntegridadeDeDadosException;
@@ -61,11 +60,6 @@ public class UsuarioServico {
 
 	public Usuario deUmDTO(UsuarioDTO usuarioDTO) {
 		Usuario usuario = new Usuario(usuarioDTO.getNome(), usuarioDTO.getEmail(), usuarioDTO.getSenha());
-		return usuario;
-	}
-
-	public Usuario deUmDTO(NovoUsuarioDTO novoUsuarioDTO) {
-		Usuario usuario = new Usuario(novoUsuarioDTO.getNome(), novoUsuarioDTO.getEmail(), novoUsuarioDTO.getSenha());
 		return usuario;
 	}
 

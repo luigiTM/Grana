@@ -7,9 +7,9 @@ import javax.validation.constraints.NotEmpty;
 import org.hibernate.validator.constraints.Length;
 
 import com.lughtech.grana.dominio.Usuario;
-import com.lughtech.grana.servicos.validacao.UsuarioAtualizacao;
+import com.lughtech.grana.servicos.validacao.UsuarioInsercao;
 
-@UsuarioAtualizacao
+@UsuarioInsercao
 public class UsuarioDTO implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -25,7 +25,7 @@ public class UsuarioDTO implements Serializable {
 	private String email;
 
 	public UsuarioDTO() {
-		super();
+		
 	}
 
 	public UsuarioDTO(Usuario usuario) {

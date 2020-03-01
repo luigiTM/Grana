@@ -11,6 +11,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity
 public class Usuario implements Serializable {
 
@@ -24,6 +26,7 @@ public class Usuario implements Serializable {
 	private Timestamp criadoEm;
 	private Timestamp ultimoAcesso;
 
+	@JsonManagedReference
 	@OneToMany(mappedBy = "usuario")
 	private List<Grana> granas = new ArrayList<>();
 
@@ -84,6 +87,14 @@ public class Usuario implements Serializable {
 
 	public void setUltimoAcesso(Timestamp ultimoLogin) {
 		this.ultimoAcesso = ultimoLogin;
+	}
+
+	public List<Grana> getGranas() {
+		return granas;
+	}
+
+	public void setGranas(List<Grana> granas) {
+		this.granas = granas;
 	}
 
 	@Override
