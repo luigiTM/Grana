@@ -1,6 +1,4 @@
-DROP DATABASE grana;
-
-CREATE DATABASE grana TABLESPACE grana;
+DROP DATABASE IF EXISTS grana;
 
 CREATE TABLE IF NOT EXISTS Usuario(
 	id_usuario serial PRIMARY KEY,
@@ -66,4 +64,11 @@ ALTER TABLE gasto_pessoa ALTER COLUMN percentual_gasto TYPE DECIMAL(6,5);
 ALTER TABLE gasto_pessoa RENAME COLUMN id_gasto_fk TO id_gasto;
 ALTER TABLE gasto_pessoa RENAME COLUMN id_pessoa_fk TO id_pessoa;
 
-ALTER TABLE gasto_pessoa ADD COLUMN id_gasto_pessoa serial PRIMARY KEY
+ALTER TABLE gasto_pessoa ADD COLUMN id_gasto_pessoa serial PRIMARY KEY;
+
+ALTER TABLE Usuario ALTER COLUMN senha TYPE VARCHAR(256);
+
+CREATE TABLE IF NOT EXISTS perfil(
+	id_usuario integer NOT NULL,
+	id_perfil integer NOT NULL
+);

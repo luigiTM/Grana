@@ -3,15 +3,25 @@ package com.lughtech.grana.dominio;
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
+import javax.persistence.CollectionTable;
+import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.lughtech.grana.dominio.enumerados.Perfil;
 
 @Entity
 public class Usuario implements Serializable {
@@ -21,16 +31,23 @@ public class Usuario implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer idUsuario;
 	private String nome;
+	@JsonIgnore
 	private String senha;
 	private String email;
 	private Timestamp criadoEm;
 	private Timestamp ultimoAcesso;
+
+	@ElementCollection(fetch = FetchType.EAGER)
+	@CollectionTable(name = "perfil", joinColumns = @JoinColumn(name = "id_usuario"))
+	@Column(name = "id_perfil")
+	private Set<Integer> perfis = new HashSet<>();
 
 	@JsonManagedReference
 	@OneToMany(mappedBy = "usuario")
 	private List<Grana> granas = new ArrayList<>();
 
 	public Usuario() {
+		adicionarPerfil(Perfil.USUARIO);
 	}
 
 	public Usuario(String nome, String email, String senha) {
@@ -39,6 +56,7 @@ public class Usuario implements Serializable {
 		this.email = email;
 		this.criadoEm = null;
 		this.ultimoAcesso = null;
+		adicionarPerfil(Perfil.USUARIO);
 	}
 
 	public Integer getIdUsuario() {
@@ -87,6 +105,15 @@ public class Usuario implements Serializable {
 
 	public void setUltimoAcesso(Timestamp ultimoLogin) {
 		this.ultimoAcesso = ultimoLogin;
+	}
+
+	public Set<Perfil> getPerfis() {
+		return perfis.stream().map(perfil -> Perfil.paraEnumerado(perfil)).collect(Collectors.toSet());
+	}
+
+	public void adicionarPerfil(Perfil perfil) {
+		perfis.add(perfil.getCodigo());
+
 	}
 
 	public List<Grana> getGranas() {

@@ -1,1 +1,0 @@
-CREATE TABLESPACE grana OWNER luigi LOCATION '/home/luigi/database';

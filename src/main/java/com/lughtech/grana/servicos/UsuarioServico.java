@@ -9,6 +9,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort.Direction;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.lughtech.grana.dominio.Usuario;
@@ -22,6 +23,8 @@ public class UsuarioServico {
 
 	@Autowired
 	private UsuarioRepositorio usuarioRepositorio;
+	@Autowired
+	private BCryptPasswordEncoder codificadorDeSenha;
 
 	public Usuario buscarUsuarioPorId(Integer id) {
 		Optional<Usuario> obj = usuarioRepositorio.findById(id);
@@ -59,7 +62,7 @@ public class UsuarioServico {
 	}
 
 	public Usuario deUmDTO(UsuarioDTO usuarioDTO) {
-		Usuario usuario = new Usuario(usuarioDTO.getNome(), usuarioDTO.getEmail(), usuarioDTO.getSenha());
+		Usuario usuario = new Usuario(usuarioDTO.getNome(), usuarioDTO.getEmail(), codificadorDeSenha.encode(usuarioDTO.getSenha()));
 		return usuario;
 	}
 
