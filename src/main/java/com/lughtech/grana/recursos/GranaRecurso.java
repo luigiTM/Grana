@@ -59,7 +59,7 @@ public class GranaRecurso {
 	}
 
 	@RequestMapping(value = "/paginado", method = RequestMethod.GET)
-	public ResponseEntity<Page<GranaDTO>> buscarUsuariosPaginado(@RequestParam(value = "pagina", defaultValue = "0") Integer pagina, @RequestParam(value = "linhaPagina", defaultValue = "24") Integer linhaPagina, @RequestParam(value = "ordenacao", defaultValue = "nome") String ordenacao, @RequestParam(value = "pagina", defaultValue = "ASC") String direcao) {
+	public ResponseEntity<Page<GranaDTO>> buscarUsuariosPaginado(@RequestParam(value = "pagina", defaultValue = "0") Integer pagina, @RequestParam(value = "linhaPagina", defaultValue = "24") Integer linhaPagina, @RequestParam(value = "ordenacao", defaultValue = "nome") String ordenacao, @RequestParam(value = "pagina", defaultValue = "DESC") String direcao) {
 		Page<Grana> granas = granaServico.buscarGranasPaginado(pagina, linhaPagina, ordenacao, direcao);
 		Page<GranaDTO> granaDTO = granas.map(grana -> new GranaDTO(grana));
 		return ResponseEntity.ok().body(granaDTO);

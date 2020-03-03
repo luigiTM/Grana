@@ -6,7 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.mail.SimpleMailMessage;
 
-import com.lughtech.grana.servicos.EmailServicoAbstrato;
+import com.lughtech.grana.servicos.abstratos.EmailServicoAbstrato;
 
 public class EmailServicoMock extends EmailServicoAbstrato {
 

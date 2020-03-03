@@ -2,7 +2,7 @@ package com.lughtech.grana.dominio.enumerados;
 
 public enum Perfil {
 
-	ADMIN(1, "ROLE_ADMIN"), USUARIO(2, "ROLE_CLIENTE");
+	ADMIN(1, "ROLE_ADMIN"), USUARIO(2, "ROLE_USUARIO");
 
 	private Integer codigo;
 	private String descricao;

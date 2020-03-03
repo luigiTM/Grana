@@ -13,8 +13,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Gasto implements Serializable {
@@ -26,13 +25,12 @@ public class Gasto implements Serializable {
 	private Integer idGasto;
 	@ManyToOne
 	@JoinColumn(name = "id_grana")
-	@JsonBackReference
 	private Grana grana;
 	private String tipo;
 	private Float valor;
 	private Date dataGasto;
 
-	@JsonManagedReference
+	@JsonIgnore
 	@OneToMany(mappedBy = "gasto")
 	private List<GastoPessoa> gastosPessoas = new ArrayList<GastoPessoa>();
 

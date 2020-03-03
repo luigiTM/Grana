@@ -1,6 +1,7 @@
-package com.lughtech.grana.servicos;
+package com.lughtech.grana.servicos.abstratos;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -9,6 +10,7 @@ import org.springframework.mail.SimpleMailMessage;
 import com.lughtech.grana.dominio.Gasto;
 import com.lughtech.grana.dominio.GastoPessoa;
 import com.lughtech.grana.dominio.Grana;
+import com.lughtech.grana.dominio.Usuario;
 import com.lughtech.grana.servicos.interfaces.EmailServico;
 
 public abstract class EmailServicoAbstrato implements EmailServico {
@@ -39,6 +41,20 @@ public abstract class EmailServicoAbstrato implements EmailServico {
 			}
 		}
 		return listaSMM;
+	}
+
+	@Override
+	public void enviarNovaSenha(Usuario usuario, String novaSenha) {
+		SimpleMailMessage mensagemDeNovaSenha = prepararEmailComNovaSenha(usuario, novaSenha);
+		enviarEmail(Arrays.asList(mensagemDeNovaSenha));
+	}
+
+	protected SimpleMailMessage prepararEmailComNovaSenha(Usuario usuario, String novaSenha) {
+		SimpleMailMessage mensagemEmailPreparada = new SimpleMailMessage();
+		mensagemEmailPreparada.setTo(usuario.getEmail());
+		mensagemEmailPreparada.setFrom(remetente);
+		mensagemEmailPreparada.setText("Nova senha:" + novaSenha);
+		return mensagemEmailPreparada;
 	}
 
 }

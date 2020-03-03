@@ -9,6 +9,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -49,7 +50,8 @@ public class UsuarioRecurso {
 		usuario = usuarioServico.atualizarUsuario(usuario);
 		return ResponseEntity.noContent().build();
 	}
-
+	
+	@PreAuthorize("hasAnyRole('ADMIN')")
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
 	public ResponseEntity<Void> deletarUsuarioPorId(@PathVariable Integer id) {
 		usuarioServico.deletarUsuarioPorId(id);
@@ -63,6 +65,7 @@ public class UsuarioRecurso {
 		return ResponseEntity.ok().body(usuariosDTO);
 	}
 
+	@PreAuthorize("hasAnyRole('ADMIN')")
 	@RequestMapping(value = "/paginado", method = RequestMethod.GET)
 	public ResponseEntity<Page<UsuarioDTO>> buscarUsuariosPaginado(@RequestParam(value = "pagina", defaultValue = "0") Integer pagina, @RequestParam(value = "linhaPagina", defaultValue = "24") Integer linhaPagina, @RequestParam(value = "ordenacao", defaultValue = "nome") String ordenacao, @RequestParam(value = "pagina", defaultValue = "ASC") String direcao) {
 		Page<Usuario> usuarios = usuarioServico.buscarUsuariosPaginado(pagina, linhaPagina, ordenacao, direcao);

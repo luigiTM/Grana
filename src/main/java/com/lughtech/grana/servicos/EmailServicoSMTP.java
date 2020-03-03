@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
 
+import com.lughtech.grana.servicos.abstratos.EmailServicoAbstrato;
+
 public class EmailServicoSMTP extends EmailServicoAbstrato {
 
 	@Autowired

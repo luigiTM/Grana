@@ -1,9 +1,14 @@
 package com.lughtech.grana.configuracao;
 
+import java.util.Arrays;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.env.Environment;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -20,18 +25,26 @@ import com.lughtech.grana.seguranca.UtilitarioJWT;
 
 @Configuration
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class ConfiguracaoDeSeguranca extends WebSecurityConfigurerAdapter {
 
 	@Autowired
 	UserDetailsService detalhesDeUsuarioServico;
 	@Autowired
 	UtilitarioJWT utilitarioJWT;
+	@Autowired
+	private Environment ambiente;
 
-	private static final String[] PUBLICOS = { "/usuario/**" };
+	private static final String[] PUBLICOS_POST = { "/usuario/**", "/autenticacao/**" };
+	private static final String[] PUBLICOS_GET = {};
+	private static final String[] PUBLICOS = {};
 
 	protected void configure(HttpSecurity segurancaHttp) throws Exception {
+		if (Arrays.asList(ambiente.getActiveProfiles()).contains("test")) {
+			segurancaHttp.headers().frameOptions().disable();
+		}
 		segurancaHttp.cors().and().csrf().disable();
-		segurancaHttp.authorizeRequests().antMatchers(PUBLICOS).permitAll().anyRequest().authenticated();
+		segurancaHttp.authorizeRequests().antMatchers(HttpMethod.POST, PUBLICOS_POST).permitAll().antMatchers(HttpMethod.GET, PUBLICOS_GET).permitAll().antMatchers(PUBLICOS).permitAll().anyRequest().authenticated();
 		segurancaHttp.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 		segurancaHttp.addFilter(new FiltroDeAutenticacaoJWT(authenticationManager(), utilitarioJWT));
 		segurancaHttp.addFilter(new FiltroDeAutorizacaoJWT(authenticationManager(), utilitarioJWT, detalhesDeUsuarioServico));

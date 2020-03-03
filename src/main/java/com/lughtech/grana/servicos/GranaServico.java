@@ -16,6 +16,8 @@ import com.lughtech.grana.dominio.Usuario;
 import com.lughtech.grana.dto.GranaDTO;
 import com.lughtech.grana.repositorio.GranaRepositorio;
 import com.lughtech.grana.repositorio.UsuarioRepositorio;
+import com.lughtech.grana.seguranca.UsuarioSpringSecurity;
+import com.lughtech.grana.servicos.excecoes.AutorizacaoException;
 import com.lughtech.grana.servicos.excecoes.IntegridadeDeDadosException;
 import com.lughtech.grana.servicos.excecoes.ObjetoNaoEncontradoException;
 
@@ -55,8 +57,13 @@ public class GranaServico {
 	}
 
 	public Page<Grana> buscarGranasPaginado(Integer pagina, Integer linhaPagina, String ordenacao, String direcao) {
-		PageRequest requisicaoDePagina = PageRequest.of(pagina, linhaPagina, Direction.valueOf(direcao), ordenacao);
-		return granaRepositorio.findAll(requisicaoDePagina);
+		UsuarioSpringSecurity usuarioLogado = UsuarioLogadoServico.usuarioLogado();
+		if (usuarioLogado == null) {
+			throw new AutorizacaoException();
+		}
+		PageRequest requisicaoPaginada = PageRequest.of(pagina, linhaPagina, Direction.valueOf(direcao), ordenacao);
+		Usuario usuario = usuarioRepositorio.findById(usuarioLogado.getId()).get();
+		return granaRepositorio.findByUsuario(usuario, requisicaoPaginada);
 	}
 
 	public Grana deUmDTO(GranaDTO granaDTO) {
@@ -64,7 +71,7 @@ public class GranaServico {
 		if (granaDTO.getUsuario() == null) {
 			grana = new Grana(granaDTO.getNome(), null);
 		} else {
-			Usuario usuario = usuarioRepositorio.getOne(granaDTO.getUsuario());
+			Usuario usuario = usuarioRepositorio.findById(granaDTO.getUsuario()).get();
 			grana = new Grana(granaDTO.getNome(), usuario);
 		}
 		return grana;

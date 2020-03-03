@@ -13,8 +13,11 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.lughtech.grana.dominio.Usuario;
+import com.lughtech.grana.dominio.enumerados.Perfil;
 import com.lughtech.grana.dto.UsuarioDTO;
 import com.lughtech.grana.repositorio.UsuarioRepositorio;
+import com.lughtech.grana.seguranca.UsuarioSpringSecurity;
+import com.lughtech.grana.servicos.excecoes.AutorizacaoException;
 import com.lughtech.grana.servicos.excecoes.IntegridadeDeDadosException;
 import com.lughtech.grana.servicos.excecoes.ObjetoNaoEncontradoException;
 
@@ -27,6 +30,10 @@ public class UsuarioServico {
 	private BCryptPasswordEncoder codificadorDeSenha;
 
 	public Usuario buscarUsuarioPorId(Integer id) {
+		UsuarioSpringSecurity usuarioAtual = UsuarioLogadoServico.usuarioLogado();
+		if (usuarioAtual == null || !usuarioAtual.temPermicao(Perfil.ADMIN) && !id.equals(usuarioAtual.getId())) {
+			throw new AutorizacaoException();
+		}
 		Optional<Usuario> obj = usuarioRepositorio.findById(id);
 		return obj.orElseThrow(() -> new ObjetoNaoEncontradoException(Usuario.class.getSimpleName()));
 	}

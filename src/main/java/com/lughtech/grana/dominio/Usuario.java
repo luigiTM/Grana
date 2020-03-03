@@ -20,7 +20,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.lughtech.grana.dominio.enumerados.Perfil;
 
 @Entity
@@ -42,7 +41,7 @@ public class Usuario implements Serializable {
 	@Column(name = "id_perfil")
 	private Set<Integer> perfis = new HashSet<>();
 
-	@JsonManagedReference
+	@JsonIgnore
 	@OneToMany(mappedBy = "usuario")
 	private List<Grana> granas = new ArrayList<>();
 
