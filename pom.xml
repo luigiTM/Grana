@@ -10,11 +10,11 @@
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.lughtech.grana</groupId>
-	<artifactId>grana</artifactId>
+	<artifactId>GranaAPI</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>war</packaging>
 	<name>grana</name>
-	<description>Aplicação web pra divisão de gastos</description>
+	<description>API para aplicativo de divisão de gastos</description>
 
 	<properties>
 		<java.version>1.8</java.version>
