@@ -1,4 +1,4 @@
-package com.lughtech.grana.seguranca;
+package com.lughtech.grana.seguranca.filtros;
 
 import java.io.IOException;
 import java.rmi.ServerException;
@@ -19,6 +19,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lughtech.grana.dto.CredenciaisDTO;
+import com.lughtech.grana.seguranca.UsuarioSpringSecurity;
+import com.lughtech.grana.seguranca.UtilitarioJWT;
 
 public class FiltroDeAutenticacaoJWT extends UsernamePasswordAuthenticationFilter {
 

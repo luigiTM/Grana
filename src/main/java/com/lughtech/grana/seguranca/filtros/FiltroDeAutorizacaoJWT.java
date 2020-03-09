@@ -1,4 +1,4 @@
-package com.lughtech.grana.seguranca;
+package com.lughtech.grana.seguranca.filtros;
 
 import java.io.IOException;
 
@@ -13,6 +13,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
+
+import com.lughtech.grana.seguranca.UtilitarioJWT;
 
 public class FiltroDeAutorizacaoJWT extends BasicAuthenticationFilter {
 

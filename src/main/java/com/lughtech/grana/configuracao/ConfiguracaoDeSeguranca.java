@@ -19,9 +19,9 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-import com.lughtech.grana.seguranca.FiltroDeAutenticacaoJWT;
-import com.lughtech.grana.seguranca.FiltroDeAutorizacaoJWT;
 import com.lughtech.grana.seguranca.UtilitarioJWT;
+import com.lughtech.grana.seguranca.filtros.FiltroDeAutenticacaoJWT;
+import com.lughtech.grana.seguranca.filtros.FiltroDeAutorizacaoJWT;
 
 @Configuration
 @EnableWebSecurity
@@ -57,8 +57,10 @@ public class ConfiguracaoDeSeguranca extends WebSecurityConfigurerAdapter {
 
 	@Bean
 	CorsConfigurationSource corsConfigurationSource() {
+		CorsConfiguration configuracaoCors = new CorsConfiguration().applyPermitDefaultValues();
+		configuracaoCors.setAllowedMethods(Arrays.asList("POST","PUT","GET","DELETE","OPTIONS"));
 		final UrlBasedCorsConfigurationSource fonte = new UrlBasedCorsConfigurationSource();
-		fonte.registerCorsConfiguration("/**", new CorsConfiguration().applyPermitDefaultValues());
+		fonte.registerCorsConfiguration("/**", configuracaoCors);
 		return fonte;
 	}
 
