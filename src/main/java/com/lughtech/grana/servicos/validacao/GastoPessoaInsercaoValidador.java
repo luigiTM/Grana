@@ -47,7 +47,7 @@ public class GastoPessoaInsercaoValidador implements ConstraintValidator<GastoPe
 			}
 
 			List<GastoPessoa> listaGastosPessoas = gastoPessoaRepositorio.buscarGastoPessoaPorIdGasto(novoGastoPessoaDTO.getGasto());
-			Float valorTotal = new Float(0);
+			Float valorTotal = 0.0f;
 
 			for (GastoPessoa gastoPessoa : listaGastosPessoas) {
 				valorTotal = valorTotal + gastoPessoa.getValorGasto();
@@ -56,10 +56,10 @@ public class GastoPessoaInsercaoValidador implements ConstraintValidator<GastoPe
 			if (novoGastoPessoaDTO.getValorGasto() > valorTotal) {
 				lista.add(new MensagemCampos("valorGasto", "O valor do percentual da divisão não pode ser maior que o valor total do gasto"));
 			}
-			
+
 			List<GastoPessoa> listaGastoPessoaExistentes = gastoPessoaRepositorio.buscarQantidadeGastoPessoa(novoGastoPessoaDTO.getGasto(), novoGastoPessoaDTO.getPessoa());
-			
-			if(listaGastoPessoaExistentes.size() > 0) {
+
+			if (listaGastoPessoaExistentes.size() > 0) {
 				lista.add(new MensagemCampos("valorGasto", "Pessoa já incluída no gasto"));
 			}
 		}
