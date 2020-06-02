@@ -67,7 +67,7 @@ public class UsuarioRecurso {
 
 	@PreAuthorize("hasAnyRole('ADMIN')")
 	@RequestMapping(value = "/paginado", method = RequestMethod.GET)
-	public ResponseEntity<Page<UsuarioDTO>> buscarUsuariosPaginado(@RequestParam(value = "pagina", defaultValue = "0") Integer pagina, @RequestParam(value = "linhaPagina", defaultValue = "24") Integer linhaPagina, @RequestParam(value = "ordenacao", defaultValue = "nome") String ordenacao, @RequestParam(value = "pagina", defaultValue = "ASC") String direcao) {
+	public ResponseEntity<Page<UsuarioDTO>> buscarUsuariosPaginado(@RequestParam(value = "pagina", defaultValue = "0") Integer pagina, @RequestParam(value = "linhasPagina", defaultValue = "24") Integer linhaPagina, @RequestParam(value = "ordenacao", defaultValue = "nome") String ordenacao, @RequestParam(value = "direcao", defaultValue = "ASC") String direcao) {
 		Page<Usuario> usuarios = usuarioServico.buscarUsuariosPaginado(pagina, linhaPagina, ordenacao, direcao);
 		Page<UsuarioDTO> usuariosDTO = usuarios.map(usuario -> new UsuarioDTO(usuario));
 		return ResponseEntity.ok().body(usuariosDTO);
