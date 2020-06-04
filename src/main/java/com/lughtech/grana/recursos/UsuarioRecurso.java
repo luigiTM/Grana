@@ -34,6 +34,12 @@ public class UsuarioRecurso {
 		Usuario usuario = usuarioServico.buscarUsuarioPorId(id);
 		return ResponseEntity.ok().body(usuario);
 	}
+	
+	@RequestMapping(value = "/email/{email}", method = RequestMethod.GET)
+	public ResponseEntity<Usuario> buscarUsuarioPorEmail(@PathVariable String email) {
+		Usuario usuario = usuarioServico.buscarUsuarioPorEmail(email);
+		return ResponseEntity.ok().body(usuario);
+	}
 
 	@RequestMapping(method = RequestMethod.POST)
 	public ResponseEntity<Void> inserirUsuario(@Valid @RequestBody UsuarioDTO UsuarioDTO) {

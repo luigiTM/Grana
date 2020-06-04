@@ -34,8 +34,20 @@ public class UsuarioServico {
 		if (usuarioAtual == null || !usuarioAtual.temPermicao(Perfil.ADMIN) && !id.equals(usuarioAtual.getId())) {
 			throw new AutorizacaoException();
 		}
-		Optional<Usuario> obj = usuarioRepositorio.findById(id);
-		return obj.orElseThrow(() -> new ObjetoNaoEncontradoException(Usuario.class.getSimpleName()));
+		Optional<Usuario> usuario = usuarioRepositorio.findById(id);
+		return usuario.orElseThrow(() -> new ObjetoNaoEncontradoException(Usuario.class.getSimpleName()));
+	}
+
+	public Usuario buscarUsuarioPorEmail(String email) {
+		UsuarioSpringSecurity usuarioAtual = UsuarioLogadoServico.usuarioLogado();
+		if (usuarioAtual == null || !usuarioAtual.temPermicao(Perfil.ADMIN) && !email.equals(usuarioAtual.getUsername())) {
+			throw new AutorizacaoException();
+		}
+		Usuario usuario = usuarioRepositorio.findByEmail(email);
+		if (usuario == null) {
+			throw new ObjetoNaoEncontradoException("Objeto não encontrado! Id: " + usuarioAtual.getId() + ", Tipo: " + Usuario.class.getName());
+		}
+		return usuario;
 	}
 
 	public Usuario salvarUsuario(Usuario usuario) {
