@@ -1,6 +1,7 @@
 package com.lughtech.grana.dto;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 
 import javax.validation.constraints.NotEmpty;
 
@@ -17,6 +18,7 @@ public class GranaDTO implements Serializable {
 	private String nome;
 	private Integer usuario;
 	private String codigoDeAcesso;
+	private Timestamp modificadoEm;
 
 	public GranaDTO() {
 
@@ -50,6 +52,14 @@ public class GranaDTO implements Serializable {
 
 	public void setUsuario(Integer usuario) {
 		this.usuario = usuario;
+	}
+
+	public Timestamp getModificadoEm() {
+		return modificadoEm;
+	}
+
+	public void setModificadoEm(Timestamp modificadoEm) {
+		this.modificadoEm = modificadoEm;
 	}
 
 }

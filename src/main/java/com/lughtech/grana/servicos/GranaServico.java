@@ -38,6 +38,7 @@ public class GranaServico {
 		grana.setIdGrana(null);
 		grana.setCriadoEm(new Timestamp(System.currentTimeMillis()));
 		grana.setCodigoDeAcesso(DigestUtils.md5DigestAsHex(grana.getCriadoEm().toString().getBytes()));
+		grana.setModificadoEm(new Timestamp(System.currentTimeMillis()));
 		return granaRepositorio.save(grana);
 	}
 
@@ -56,13 +57,13 @@ public class GranaServico {
 		}
 	}
 
-	public Page<Grana> buscarGranasPaginado(Integer pagina, Integer linhaPagina, String ordenacao, String direcao) {
+	public Page<Grana> buscarGranasPaginado(Integer idUsuario, Integer pagina, Integer linhaPagina, String ordenacao, String direcao) {
 		UsuarioSpringSecurity usuarioLogado = UsuarioLogadoServico.usuarioLogado();
-		if (usuarioLogado == null) {
+		if (usuarioLogado == null || !idUsuario.equals(usuarioLogado.getId())) {
 			throw new AutorizacaoException();
 		}
 		PageRequest requisicaoPaginada = PageRequest.of(pagina, linhaPagina, Direction.valueOf(direcao), ordenacao);
-		Usuario usuario = usuarioRepositorio.findById(usuarioLogado.getId()).get();
+		Usuario usuario = usuarioRepositorio.findById(idUsuario).get();
 		return granaRepositorio.findByUsuario(usuario, requisicaoPaginada);
 	}
 
