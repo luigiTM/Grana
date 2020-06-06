@@ -39,7 +39,8 @@ public class FiltroDeAutenticacaoJWT extends UsernamePasswordAuthenticationFilte
 		try {
 			CredenciaisDTO creds = new ObjectMapper().readValue(requisicao.getInputStream(), CredenciaisDTO.class);
 
-			UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(creds.getEmail(), creds.getSenha(), new ArrayList<>());
+			UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(creds.getEmail(),
+					creds.getSenha(), new ArrayList<>());
 
 			Authentication auth = gerenciadorDeAutenticacao.authenticate(authToken);
 			return auth;
@@ -49,9 +50,11 @@ public class FiltroDeAutenticacaoJWT extends UsernamePasswordAuthenticationFilte
 	}
 
 	@Override
-	public void successfulAuthentication(HttpServletRequest requisicao, HttpServletResponse resposta, FilterChain cadeiaDeFiltro, Authentication autenticacao) throws IOException, ServerException {
+	public void successfulAuthentication(HttpServletRequest requisicao, HttpServletResponse resposta,
+			FilterChain cadeiaDeFiltro, Authentication autenticacao) throws IOException, ServerException {
 		String username = ((UsuarioSpringSecurity) autenticacao.getPrincipal()).getUsername();
-		String token = utilitarioJwt.generateToken(username);
+		Integer id = ((UsuarioSpringSecurity) autenticacao.getPrincipal()).getId();
+		String token = utilitarioJwt.generateToken(username, id);
 		resposta.addHeader("Authorization", "Bearer " + token);
 		resposta.addHeader("access-control-expose-headers", "Authorization");
 	}
@@ -59,7 +62,8 @@ public class FiltroDeAutenticacaoJWT extends UsernamePasswordAuthenticationFilte
 	private class ManipuladorDeFalhaDeAutenticacaoJWT implements AuthenticationFailureHandler {
 
 		@Override
-		public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
+		public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
+				AuthenticationException exception) throws IOException, ServletException {
 			response.setStatus(401);
 			response.setContentType("application/json");
 			response.getWriter().append(json());
@@ -67,7 +71,8 @@ public class FiltroDeAutenticacaoJWT extends UsernamePasswordAuthenticationFilte
 
 		private String json() {
 			long date = new Date().getTime();
-			return "{\"timestamp\": " + date + ", " + "\"status\": 401, " + "\"error\": \"Não autorizado\", " + "\"message\": \"Email ou senha inválidos\", " + "\"path\": \"/login\"}";
+			return "{\"timestamp\": " + date + ", " + "\"status\": 401, " + "\"error\": \"Não autorizado\", "
+					+ "\"message\": \"Email ou senha inválidos\", " + "\"path\": \"/login\"}";
 		}
 	}
 

@@ -18,8 +18,10 @@ public class UtilitarioJWT {
 	@Value("${jwt.expiration}")
 	private Long expiracao;
 
-	public String generateToken(String nomeUsuraio) {
-		return Jwts.builder().setSubject(nomeUsuraio).setExpiration(new Date(System.currentTimeMillis() + expiracao)).signWith(SignatureAlgorithm.HS512, segredo.getBytes()).compact();
+	public String generateToken(String nomeUsuario, Integer idUsuario) {
+		return Jwts.builder().setSubject(nomeUsuario).claim("user_id", idUsuario)
+				.setExpiration(new Date(System.currentTimeMillis() + expiracao))
+				.signWith(SignatureAlgorithm.HS512, segredo.getBytes()).compact();
 	}
 
 	public boolean tokenValido(String token) {

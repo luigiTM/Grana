@@ -29,7 +29,7 @@ public class AutenticacaoRecurso {
 	@RequestMapping(value = "/atualizarToken", method = RequestMethod.POST)
 	public ResponseEntity<Void> refreshToken(HttpServletResponse resposta) {
 		UsuarioSpringSecurity usuario = UsuarioLogadoServico.usuarioLogado();
-		String token = utillitarioJWT.generateToken(usuario.getUsername());
+		String token = utillitarioJWT.generateToken(usuario.getUsername(), usuario.getId());
 		resposta.addHeader("Authorization", "Bearer " + token);
 		resposta.addHeader("access-control-expose-headers", "Authorization");
 		return ResponseEntity.noContent().build();
