@@ -30,7 +30,13 @@ public class GranaServico {
 	private UsuarioRepositorio usuarioRepositorio;
 
 	public Grana buscarGranaPorId(Integer id) {
+		UsuarioSpringSecurity usuarioAtual = UsuarioLogadoServico.usuarioLogado();
 		Optional<Grana> obj = granaRepositorio.findById(id);
+		if (!obj.get().equals(null)) {
+			if (usuarioAtual == null || !obj.get().getUsuario().getIdUsuario().equals(usuarioAtual.getId())) {
+				throw new AutorizacaoException();
+			}
+		}
 		return obj.orElseThrow(() -> new ObjetoNaoEncontradoException("Objeto do tipo " + Grana.class.getSimpleName() + " não encontrado!"));
 	}
 
@@ -43,13 +49,21 @@ public class GranaServico {
 	}
 
 	public Grana atualizarGrana(Grana grana) {
+		UsuarioSpringSecurity usuarioAtual = UsuarioLogadoServico.usuarioLogado();
+		if (usuarioAtual == null || !grana.getUsuario().getIdUsuario().equals(usuarioAtual.getId())) {
+			throw new AutorizacaoException();
+		}
 		Grana novoGrana = buscarGranaPorId(grana.getIdGrana());
 		atualizarInformacoesGrana(grana, novoGrana);
 		return granaRepositorio.save(novoGrana);
 	}
 
 	public void deletarGranaPorId(Integer id) {
-		buscarGranaPorId(id);
+		UsuarioSpringSecurity usuarioAtual = UsuarioLogadoServico.usuarioLogado();
+		Grana grana = buscarGranaPorId(id);
+		if (usuarioAtual == null || !grana.getUsuario().getIdUsuario().equals(usuarioAtual.getId())) {
+			throw new AutorizacaoException();
+		}
 		try {
 			granaRepositorio.deleteById(id);
 		} catch (DataIntegrityViolationException integridadeException) {

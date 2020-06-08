@@ -23,6 +23,7 @@ public class Grana implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer idGrana;
 	private String nome;
+	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name = "id_usuario")
 	private Usuario usuario;

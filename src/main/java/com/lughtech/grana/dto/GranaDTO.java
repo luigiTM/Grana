@@ -13,8 +13,9 @@ public class GranaDTO implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
+	private Integer id;
 	@NotEmpty(message = "Nome do Grana não pode ser vazio")
-	@Length(min=1,max = 50, message = "Nome do Grana não pode ter mais que 50 caracteres")
+	@Length(min = 1, max = 50, message = "Nome do Grana não pode ter mais que 50 caracteres")
 	private String nome;
 	private Integer usuario;
 	private String codigoDeAcesso;
@@ -25,9 +26,18 @@ public class GranaDTO implements Serializable {
 	}
 
 	public GranaDTO(Grana grana) {
+		this.id = grana.getIdGrana();
 		this.nome = grana.getNome();
 		this.usuario = grana.getUsuario().getIdUsuario();
 		this.codigoDeAcesso = grana.getCodigoDeAcesso();
+	}
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
 	}
 
 	public String getNome() {

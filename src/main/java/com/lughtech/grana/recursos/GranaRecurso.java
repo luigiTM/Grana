@@ -32,7 +32,6 @@ public class GranaRecurso {
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public ResponseEntity<Grana> buscarGranaPoId(@PathVariable Integer id) {
 		Grana grana = granaServico.buscarGranaPorId(id);
-		emailServico.enviarGranaParaPessoas(grana);
 		return ResponseEntity.ok().body(grana);
 	}
 
@@ -40,6 +39,7 @@ public class GranaRecurso {
 	public ResponseEntity<Void> inserirGrana(@Valid @RequestBody GranaDTO granaDTO) {
 		Grana novoGrana = granaServico.deUmDTO(granaDTO);
 		novoGrana = granaServico.salvarGrana(novoGrana);
+		emailServico.enviarGranaParaPessoas(novoGrana);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(novoGrana.getIdGrana()).toUri();
 		return ResponseEntity.created(uri).build();
 	}
@@ -60,7 +60,7 @@ public class GranaRecurso {
 
 	@RequestMapping(value = "/paginado", method = RequestMethod.GET)
 	public ResponseEntity<Page<GranaDTO>> buscarGranasPaginado(@RequestParam(value = "usuario", defaultValue = "") Integer usuario, @RequestParam(value = "pagina", defaultValue = "0") Integer pagina, @RequestParam(value = "linhasPagina", defaultValue = "24") Integer linhaPagina, @RequestParam(value = "ordenacao", defaultValue = "nome") String ordenacao, @RequestParam(value = "direcao", defaultValue = "DESC") String direcao) {
-		Page<Grana> granas = granaServico.buscarGranasPaginado(usuario,pagina, linhaPagina, ordenacao, direcao);
+		Page<Grana> granas = granaServico.buscarGranasPaginado(usuario, pagina, linhaPagina, ordenacao, direcao);
 		Page<GranaDTO> granaDTO = granas.map(grana -> new GranaDTO(grana));
 		return ResponseEntity.ok().body(granaDTO);
 	}
