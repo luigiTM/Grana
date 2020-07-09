@@ -39,9 +39,8 @@ public class UsuarioInsercaoValidador implements ConstraintValidator<UsuarioInse
 			}
 		}
 		if (requisicao.getMethod().equals("PUT")) {
-			@SuppressWarnings("unchecked")
-			Map<String, String> mapaRequisicao = (Map<String, String>) requisicao.getAttribute(HandlerMapping.URI_TEMPLATE_VARIABLES_ATTRIBUTE);
-			Integer uriId = Integer.parseInt((mapaRequisicao.get("id") == null ? "0" : mapaRequisicao.get("id")));
+			Map<?, ?> mapaRequisicao = (Map<?, ?>) requisicao.getAttribute(HandlerMapping.URI_TEMPLATE_VARIABLES_ATTRIBUTE);
+			Integer uriId = Integer.parseInt((mapaRequisicao.get("id") == null ? "0" : (String) mapaRequisicao.get("id")));
 			Usuario usuarioExistente = usuarioRepositorio.findByEmail(novoUsuarioDTO.getEmail());
 			if (usuarioExistente != null && !usuarioExistente.getIdUsuario().equals(uriId)) {
 				lista.add(new MensagemCampos("email", "Email já existente"));
