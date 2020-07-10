@@ -42,8 +42,8 @@ public class UsuarioRecurso {
 	}
 
 	@RequestMapping(method = RequestMethod.POST)
-	public ResponseEntity<Void> inserirUsuario(@Valid @RequestBody UsuarioDTO UsuarioDTO) {
-		Usuario usuario = usuarioServico.deUmDTO(UsuarioDTO);
+	public ResponseEntity<Void> inserirUsuario(@Valid @RequestBody UsuarioDTO usuarioDTO) {
+		Usuario usuario = usuarioServico.deUmDTO(usuarioDTO);
 		usuario = usuarioServico.salvarUsuario(usuario);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(usuario.getIdUsuario()).toUri();
 		return ResponseEntity.created(uri).build();

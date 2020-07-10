@@ -10,7 +10,7 @@
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.lughtech.grana</groupId>
-	<artifactId>GranaAPI</artifactId>
+	<artifactId>grana</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>war</packaging>
 	<name>grana</name>
