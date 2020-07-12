@@ -20,6 +20,18 @@
 		<java.version>11</java.version>
 	</properties>
 
+	<profiles>
+		<profile>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<id>dev</id>
+		</profile>
+		<profile>
+			<id>test</id>
+		</profile>
+	</profiles>
+
 	<dependencies>
 		<dependency>
 			<groupId>org.postgresql</groupId>

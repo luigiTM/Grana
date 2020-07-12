@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
 
 import com.lughtech.grana.dominio.Gasto;
@@ -15,7 +14,6 @@ import com.lughtech.grana.servicos.interfaces.EmailServico;
 
 public abstract class EmailServicoAbstrato implements EmailServico {
 
-	@Value("${default.sender}")
 	private String remetente;
 
 	@Override
