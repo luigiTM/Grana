@@ -18,7 +18,6 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import com.lughtech.grana.dominio.Grana;
 import com.lughtech.grana.dto.GranaDTO;
 import com.lughtech.grana.servicos.GranaServico;
-import com.lughtech.grana.servicos.interfaces.EmailServico;
 
 @RestController
 @RequestMapping(value = "/grana")
@@ -26,8 +25,6 @@ public class GranaRecurso {
 
 	@Autowired
 	private GranaServico granaServico;
-	@Autowired
-	private EmailServico emailServico;
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public ResponseEntity<Grana> buscarGranaPoId(@PathVariable Integer id) {
@@ -39,7 +36,6 @@ public class GranaRecurso {
 	public ResponseEntity<Void> inserirGrana(@Valid @RequestBody GranaDTO granaDTO) {
 		Grana novoGrana = granaServico.deUmDTO(granaDTO);
 		novoGrana = granaServico.salvarGrana(novoGrana);
-		emailServico.enviarGranaParaPessoas(novoGrana);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(novoGrana.getIdGrana()).toUri();
 		return ResponseEntity.created(uri).build();
 	}
