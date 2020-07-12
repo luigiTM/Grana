@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import com.lughtech.grana.dominio.Usuario;
 import com.lughtech.grana.repositorio.UsuarioRepositorio;
 import com.lughtech.grana.servicos.excecoes.ObjetoNaoEncontradoException;
-import com.lughtech.grana.servicos.interfaces.EmailServico;
 
 @Service
 public class AutenticadorServico {
@@ -18,8 +17,6 @@ public class AutenticadorServico {
 	private UsuarioRepositorio usuarioRepositorio;
 	@Autowired
 	private BCryptPasswordEncoder codificadorDeSenha;
-	@Autowired
-	private EmailServico emailServico;
 
 	private Random aleatorio;
 
@@ -31,7 +28,6 @@ public class AutenticadorServico {
 		String novaSenha = gerarNovaSenha();
 		usuario.setSenha(codificadorDeSenha.encode(novaSenha));
 		usuarioRepositorio.save(usuario);
-		emailServico.enviarNovaSenha(usuario, novaSenha);
 	}
 
 	private String gerarNovaSenha() {
