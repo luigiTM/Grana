@@ -8,7 +8,7 @@ import com.lughtech.grana.servicos.interfaces.EmailServico;
 import com.lughtech.grana.servicos.mock.EmailServicoMock;
 
 @Configuration
-@Profile("teste")
+@Profile("test")
 public class ConfiguracaoTeste {
 
 	@Bean
