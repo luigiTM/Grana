@@ -1,5 +1,6 @@
 package com.lughtech.grana.servicos;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,8 @@ import com.lughtech.grana.dominio.Grana;
 import com.lughtech.grana.dto.GastoDTO;
 import com.lughtech.grana.repositorio.GastoRepositorio;
 import com.lughtech.grana.repositorio.GranaRepositorio;
+import com.lughtech.grana.seguranca.UsuarioSpringSecurity;
+import com.lughtech.grana.servicos.excecoes.AutorizacaoException;
 import com.lughtech.grana.servicos.excecoes.IntegridadeDeDadosException;
 import com.lughtech.grana.servicos.excecoes.ObjetoNaoEncontradoException;
 
@@ -23,8 +26,25 @@ public class GastoServico {
 	private GranaRepositorio granaRepositorio;
 
 	public Gasto buscarGastoPorId(Integer id) {
+		UsuarioSpringSecurity usuarioAtual = UsuarioLogadoServico.usuarioLogado();
 		Optional<Gasto> obj = gastoRepositorio.findById(id);
+		if (!obj.get().equals(null)) {
+			if (usuarioAtual == null || !obj.get().getGrana().getUsuario().getIdUsuario().equals(usuarioAtual.getId())) {
+				throw new AutorizacaoException();
+			}
+		}
 		return obj.orElseThrow(() -> new ObjetoNaoEncontradoException(Gasto.class.getSimpleName()));
+	}
+
+	public List<Gasto> buscarGastosPorGrana(Integer idGrana) {
+		UsuarioSpringSecurity usuarioAtual = UsuarioLogadoServico.usuarioLogado();
+		Optional<Grana> grana = granaRepositorio.findById(idGrana);
+		if (!grana.get().equals(null)) {
+			if (usuarioAtual == null || !grana.get().getUsuario().getIdUsuario().equals(usuarioAtual.getId())) {
+				throw new AutorizacaoException();
+			}
+		}
+		return gastoRepositorio.findByGrana(idGrana);
 	}
 
 	public Gasto salvarGasto(Gasto gasto) {
@@ -33,13 +53,21 @@ public class GastoServico {
 	}
 
 	public Gasto atualizarGasto(Gasto gasto) {
+		UsuarioSpringSecurity usuarioAtual = UsuarioLogadoServico.usuarioLogado();
 		Gasto novoGasto = buscarGastoPorId(gasto.getIdGasto());
+		if (usuarioAtual == null || !novoGasto.getGrana().getUsuario().getIdUsuario().equals(usuarioAtual.getId())) {
+			throw new AutorizacaoException();
+		}
 		atualizarInformacoesGasto(novoGasto, gasto);
 		return gastoRepositorio.save(novoGasto);
 	}
 
 	public void deletarGastoPorId(Integer id) {
-		buscarGastoPorId(id);
+		UsuarioSpringSecurity usuarioAtual = UsuarioLogadoServico.usuarioLogado();
+		Gasto gasto = buscarGastoPorId(id);
+		if (usuarioAtual == null || !gasto.getGrana().getUsuario().getIdUsuario().equals(usuarioAtual.getId())) {
+			throw new AutorizacaoException();
+		}
 		try {
 			gastoRepositorio.deleteById(id);
 		} catch (DataIntegrityViolationException integridadeException) {
@@ -63,4 +91,5 @@ public class GastoServico {
 		novoGasto.setTipo((gasto.getTipo() == null) ? novoGasto.getTipo() : gasto.getTipo());
 		novoGasto.setValor((gasto.getValor() == null) ? novoGasto.getValor() : gasto.getValor());
 	}
+
 }

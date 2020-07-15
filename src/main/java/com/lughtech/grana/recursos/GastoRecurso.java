@@ -1,6 +1,7 @@
 package com.lughtech.grana.recursos;
 
 import java.net.URI;
+import java.util.List;
 
 import javax.validation.Valid;
 
@@ -28,6 +29,12 @@ public class GastoRecurso {
 	public ResponseEntity<Gasto> buscarGastoPorId(@PathVariable Integer id) {
 		Gasto gasto = gastoServico.buscarGastoPorId(id);
 		return ResponseEntity.ok().body(gasto);
+	}
+
+	@RequestMapping(value = "/{idGrana}", method = RequestMethod.GET)
+	public ResponseEntity<List<Gasto>> buscarGastoPorGrana(@PathVariable Integer idGrana) {
+		List<Gasto> gastos = gastoServico.buscarGastosPorGrana(idGrana);
+		return ResponseEntity.ok().body(gastos);
 	}
 
 	@RequestMapping(method = RequestMethod.POST)

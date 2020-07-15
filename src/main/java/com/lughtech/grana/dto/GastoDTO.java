@@ -16,7 +16,7 @@ public class GastoDTO implements Serializable {
 
 	private Integer idGrana;
 	@NotEmpty(message = "Tipo do gasto não pode ser vazio")
-	@Length(max = 20, message = "Nome do gasto não pode ter mais que 20 caracteres")
+	@Length(max = 20, message = "Tipo do gasto não pode ter mais que 20 caracteres")
 	private String tipo;
 	private Float valor;
 	private Date dataGasto;

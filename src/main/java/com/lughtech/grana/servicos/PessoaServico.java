@@ -1,5 +1,6 @@
 package com.lughtech.grana.servicos;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,11 +10,15 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
+import com.lughtech.grana.dominio.Grana;
 import com.lughtech.grana.dominio.Pessoa;
 import com.lughtech.grana.dominio.Usuario;
 import com.lughtech.grana.dto.PessoaDTO;
+import com.lughtech.grana.repositorio.GranaRepositorio;
 import com.lughtech.grana.repositorio.PessoaRepositorio;
 import com.lughtech.grana.repositorio.UsuarioRepositorio;
+import com.lughtech.grana.seguranca.UsuarioSpringSecurity;
+import com.lughtech.grana.servicos.excecoes.AutorizacaoException;
 import com.lughtech.grana.servicos.excecoes.IntegridadeDeDadosException;
 import com.lughtech.grana.servicos.excecoes.ObjetoNaoEncontradoException;
 
@@ -24,10 +29,30 @@ public class PessoaServico {
 	private PessoaRepositorio pessoaRepositorio;
 	@Autowired
 	private UsuarioRepositorio usuarioRepositorio;
+	@Autowired
+	private GranaRepositorio granaRepositorio;
 
 	public Pessoa buscarPessoaPorId(Integer id) {
+		UsuarioSpringSecurity usuarioAtual = UsuarioLogadoServico.usuarioLogado();
 		Optional<Pessoa> obj = pessoaRepositorio.findById(id);
+		if (obj.get() != null) {
+			if (usuarioAtual == null || !obj.get().getusuarioCriacao().getIdUsuario().equals(usuarioAtual.getId())) {
+				throw new AutorizacaoException();
+			}
+		}
 		return obj.orElseThrow(() -> new ObjetoNaoEncontradoException(Pessoa.class.getSimpleName()));
+	}
+
+	public List<Pessoa> buscarPessoasPorGrana(Integer idGrana) {
+		UsuarioSpringSecurity usuarioAtual = UsuarioLogadoServico.usuarioLogado();
+		Optional<Grana> grana = granaRepositorio.findById(idGrana);
+		if (grana.get() != null) {
+			if (usuarioAtual == null || !grana.get().getUsuario().getIdUsuario().equals(usuarioAtual.getId())) {
+				throw new AutorizacaoException();
+			}
+		}
+//		return pessoaRepositorio.findByGrana(idGrana);
+		return null;
 	}
 
 	public Pessoa salvarPessoa(Pessoa Pessoa) {
@@ -36,13 +61,21 @@ public class PessoaServico {
 	}
 
 	public Pessoa atualizarPessoa(Pessoa pessoa) {
+		UsuarioSpringSecurity usuarioAtual = UsuarioLogadoServico.usuarioLogado();
+		if (usuarioAtual == null || !pessoa.getusuarioCriacao().getIdUsuario().equals(usuarioAtual.getId())) {
+			throw new AutorizacaoException();
+		}
 		Pessoa novaPessoa = buscarPessoaPorId(pessoa.getIdPessoa());
 		atualizarInformacoesPessoa(novaPessoa, pessoa);
 		return pessoaRepositorio.save(novaPessoa);
 	}
 
 	public void deletarPessoaPorId(Integer id) {
-		buscarPessoaPorId(id);
+		UsuarioSpringSecurity usuarioAtual = UsuarioLogadoServico.usuarioLogado();
+		Pessoa pessoa = buscarPessoaPorId(id);
+		if (usuarioAtual == null || !pessoa.getusuarioCriacao().getIdUsuario().equals(usuarioAtual.getId())) {
+			throw new AutorizacaoException();
+		}
 		try {
 			pessoaRepositorio.deleteById(id);
 		} catch (DataIntegrityViolationException integridadeException) {
@@ -50,7 +83,11 @@ public class PessoaServico {
 		}
 	}
 
-	public Page<Pessoa> buscarPessoasPaginado(Integer pagina, Integer linhaPagina, String ordenacao, String direcao) {
+	public Page<Pessoa> buscarPessoasPaginado(Integer idUsuarioCriacao, Integer pagina, Integer linhaPagina, String ordenacao, String direcao) {
+		UsuarioSpringSecurity usuarioAtual = UsuarioLogadoServico.usuarioLogado();
+		if (usuarioAtual == null || !idUsuarioCriacao.equals(usuarioAtual.getId())) {
+			throw new AutorizacaoException();
+		}
 		PageRequest requisicaoDePagina = PageRequest.of(pagina, linhaPagina, Direction.valueOf(direcao), ordenacao);
 		return pessoaRepositorio.findAll(requisicaoDePagina);
 	}
