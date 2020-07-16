@@ -31,13 +31,13 @@ public class GranaServico {
 
 	public Grana buscarGranaPorId(Integer id) {
 		UsuarioSpringSecurity usuarioAtual = UsuarioLogadoServico.usuarioLogado();
-		Optional<Grana> obj = granaRepositorio.findById(id);
-		if (!obj.get().equals(null)) {
-			if (usuarioAtual == null || !obj.get().getUsuario().getIdUsuario().equals(usuarioAtual.getId())) {
+		Optional<Grana> grana = granaRepositorio.findById(id);
+		if (!grana.get().equals(null)) {
+			if (usuarioAtual == null || !grana.get().getUsuario().getIdUsuario().equals(usuarioAtual.getId())) {
 				throw new AutorizacaoException();
 			}
 		}
-		return obj.orElseThrow(() -> new ObjetoNaoEncontradoException("Objeto do tipo " + Grana.class.getSimpleName() + " não encontrado!"));
+		return grana.orElseThrow(() -> new ObjetoNaoEncontradoException("Objeto do tipo " + Grana.class.getSimpleName() + " não encontrado!"));
 	}
 
 	public Grana salvarGrana(Grana grana) {

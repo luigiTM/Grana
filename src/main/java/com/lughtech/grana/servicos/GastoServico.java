@@ -27,13 +27,13 @@ public class GastoServico {
 
 	public Gasto buscarGastoPorId(Integer id) {
 		UsuarioSpringSecurity usuarioAtual = UsuarioLogadoServico.usuarioLogado();
-		Optional<Gasto> obj = gastoRepositorio.findById(id);
-		if (!obj.get().equals(null)) {
-			if (usuarioAtual == null || !obj.get().getGrana().getUsuario().getIdUsuario().equals(usuarioAtual.getId())) {
+		Optional<Gasto> gasto = gastoRepositorio.findById(id);
+		if (!gasto.get().equals(null)) {
+			if (usuarioAtual == null || !gasto.get().getGrana().getUsuario().getIdUsuario().equals(usuarioAtual.getId())) {
 				throw new AutorizacaoException();
 			}
 		}
-		return obj.orElseThrow(() -> new ObjetoNaoEncontradoException(Gasto.class.getSimpleName()));
+		return gasto.orElseThrow(() -> new ObjetoNaoEncontradoException(Gasto.class.getSimpleName()));
 	}
 
 	public List<Gasto> buscarGastosPorGrana(Integer idGrana) {

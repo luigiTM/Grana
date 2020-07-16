@@ -31,7 +31,7 @@ public class GastoRecurso {
 		return ResponseEntity.ok().body(gasto);
 	}
 
-	@RequestMapping(value = "/{idGrana}", method = RequestMethod.GET)
+	@RequestMapping(value = "/grana/{idGrana}", method = RequestMethod.GET)
 	public ResponseEntity<List<Gasto>> buscarGastoPorGrana(@PathVariable Integer idGrana) {
 		List<Gasto> gastos = gastoServico.buscarGastosPorGrana(idGrana);
 		return ResponseEntity.ok().body(gastos);

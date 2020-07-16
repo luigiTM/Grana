@@ -34,13 +34,13 @@ public class PessoaServico {
 
 	public Pessoa buscarPessoaPorId(Integer id) {
 		UsuarioSpringSecurity usuarioAtual = UsuarioLogadoServico.usuarioLogado();
-		Optional<Pessoa> obj = pessoaRepositorio.findById(id);
-		if (obj.get() != null) {
-			if (usuarioAtual == null || !obj.get().getusuarioCriacao().getIdUsuario().equals(usuarioAtual.getId())) {
+		Optional<Pessoa> pessoa = pessoaRepositorio.findById(id);
+		if (pessoa.get() != null) {
+			if (usuarioAtual == null || !pessoa.get().getusuarioCriacao().getIdUsuario().equals(usuarioAtual.getId())) {
 				throw new AutorizacaoException();
 			}
 		}
-		return obj.orElseThrow(() -> new ObjetoNaoEncontradoException(Pessoa.class.getSimpleName()));
+		return pessoa.orElseThrow(() -> new ObjetoNaoEncontradoException(Pessoa.class.getSimpleName()));
 	}
 
 	public List<Pessoa> buscarPessoasPorGrana(Integer idGrana) {

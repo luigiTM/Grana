@@ -28,8 +28,8 @@ public class GastoPessoaServico {
 	private PessoaRepositorio pessoaRepositorio;
 
 	public GastoPessoa buscarGastoPessoaPorId(Integer id) {
-		Optional<GastoPessoa> obj = gastoPessoaRepositorio.findById(id);
-		return obj.orElseThrow(() -> new ObjetoNaoEncontradoException(GastoPessoa.class.getSimpleName()));
+		Optional<GastoPessoa> gastoPessoa = gastoPessoaRepositorio.findById(id);
+		return gastoPessoa.orElseThrow(() -> new ObjetoNaoEncontradoException(GastoPessoa.class.getSimpleName()));
 	}
 
 	public GastoPessoa salvarGastoPessoa(GastoPessoa gastoPessoa) {
