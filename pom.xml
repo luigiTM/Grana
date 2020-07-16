@@ -27,17 +27,13 @@
 				<activeByDefault>true</activeByDefault>
 			</activation>
 			<properties>
-				<db.url>jdbc:postgresql://localhost:5432/grana</db.url>
-				<db.username>postgres</db.username>
-				<db.password>postgres</db.password>
+				<activatedProperties>dev</activatedProperties>
 			</properties>
 		</profile>
 		<profile>
 			<id>test</id>
 			<properties>
-				<db.url>jdbc:postgresql://localhost:5432/grana</db.url>
-				<db.username>luigi</db.username>
-				<db.password>senhabanco</db.password>
+				<activatedProperties>test</activatedProperties>
 			</properties>
 		</profile>
 	</profiles>
