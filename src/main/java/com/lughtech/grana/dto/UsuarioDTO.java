@@ -14,7 +14,7 @@ public class UsuarioDTO implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	private Integer idUsuario;
+	private Integer id;
 	@NotEmpty(message = "Nome não pode ser vazio")
 	@Length(min = 5, max = 50, message = "Nome deve ter entre 5 e 50 caracteres")
 	private String nome;
@@ -29,7 +29,7 @@ public class UsuarioDTO implements Serializable {
 	}
 
 	public UsuarioDTO(Usuario usuario) {
-		this.idUsuario = usuario.getIdUsuario();
+		this.id = usuario.getId();
 		this.nome = usuario.getNome();
 		this.senha = usuario.getSenha();
 		this.email = usuario.getEmail();
@@ -59,12 +59,12 @@ public class UsuarioDTO implements Serializable {
 		this.email = email;
 	}
 
-	public Integer getIdUsuario() {
-		return idUsuario;
+	public Integer getId() {
+		return id;
 	}
 
-	public void setIdUsuario(Integer idUsuario) {
-		this.idUsuario = idUsuario;
+	public void setId(Integer id) {
+		this.id = id;
 	}
 
 }

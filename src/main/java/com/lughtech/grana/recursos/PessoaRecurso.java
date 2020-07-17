@@ -41,14 +41,14 @@ public class PessoaRecurso {
 	public ResponseEntity<Void> inserirPessoa(@Valid @RequestBody PessoaDTO pessoaDTO) {
 		Pessoa novaPessoa = pessoaServico.deUmDTO(pessoaDTO);
 		novaPessoa = pessoaServico.salvarPessoa(novaPessoa);
-		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(novaPessoa.getIdPessoa()).toUri();
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(novaPessoa.getId()).toUri();
 		return ResponseEntity.created(uri).build();
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
 	public ResponseEntity<Void> atualizarPessoa(@Valid @RequestBody PessoaDTO pessoaDTO, @PathVariable Integer id) {
 		Pessoa pessoa = pessoaServico.deUmDTO(pessoaDTO);
-		pessoa.setIdPessoa(id);
+		pessoa.setId(id);
 		pessoa = pessoaServico.atualizarPessoa(pessoa);
 		return ResponseEntity.noContent().build();
 	}

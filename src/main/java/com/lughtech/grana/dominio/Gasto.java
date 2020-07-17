@@ -5,6 +5,7 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -13,7 +14,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 public class Gasto implements Serializable {
@@ -22,34 +25,40 @@ public class Gasto implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer idGasto;
+	@Column(name = "id", nullable = false)
+	private Integer id;
 	@ManyToOne
 	@JoinColumn(name = "id_grana")
+	@JsonBackReference
 	private Grana grana;
+	@Column(name = "tipo", nullable = false)
 	private String tipo;
+	@Column(name = "valor", nullable = false)
 	private Float valor;
-	private Date dataGasto;
+	@Column(name = "data", nullable = false)
+	private Date data;
 
 	@JsonIgnore
 	@OneToMany(mappedBy = "gasto")
+	@JsonManagedReference
 	private List<GastoPessoa> gastosPessoas = new ArrayList<GastoPessoa>();
 
 	public Gasto() {
 	}
 
-	public Gasto(Grana grana, String tipo, Float valor, Date dataGasto) {
+	public Gasto(Grana grana, String tipo, Float valor, Date data) {
 		this.grana = grana;
 		this.tipo = tipo;
 		this.valor = valor;
-		this.dataGasto = dataGasto;
+		this.data = data;
 	}
 
 	public Integer getIdGasto() {
-		return idGasto;
+		return id;
 	}
 
-	public void setIdGasto(Integer idGasto) {
-		this.idGasto = idGasto;
+	public void setIdGasto(Integer id) {
+		this.id = id;
 	}
 
 	public Grana getGrana() {
@@ -76,12 +85,12 @@ public class Gasto implements Serializable {
 		this.valor = valor;
 	}
 
-	public Date getDataGasto() {
-		return dataGasto;
+	public Date getData() {
+		return data;
 	}
 
-	public void setDataGasto(Date dataGasto) {
-		this.dataGasto = dataGasto;
+	public void setData(Date data) {
+		this.data = data;
 	}
 
 	public List<GastoPessoa> getGastosPessoas() {
@@ -96,7 +105,7 @@ public class Gasto implements Serializable {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((idGasto == null) ? 0 : idGasto.hashCode());
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		return result;
 	}
 
@@ -109,10 +118,10 @@ public class Gasto implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		Gasto other = (Gasto) obj;
-		if (idGasto == null) {
-			if (other.idGasto != null)
+		if (id == null) {
+			if (other.id != null)
 				return false;
-		} else if (!idGasto.equals(other.idGasto))
+		} else if (!id.equals(other.id))
 			return false;
 		return true;
 	}

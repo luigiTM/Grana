@@ -10,7 +10,7 @@ public class GastoPessoaDTO implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	private Integer IdGastoPessoa;
+	private Integer id;
 	private Integer gasto;
 	private Integer pessoa;
 	private Float valorGasto;
@@ -22,17 +22,17 @@ public class GastoPessoaDTO implements Serializable {
 
 	public GastoPessoaDTO(GastoPessoa gastoPessoa) {
 		this.gasto = gastoPessoa.getGasto().getIdGasto();
-		this.pessoa = gastoPessoa.getPessoa().getIdPessoa();
+		this.pessoa = gastoPessoa.getPessoa().getId();
 		this.valorGasto = gastoPessoa.getValorGasto();
 		this.percentualGasto = gastoPessoa.getPercentualGasto();
 	}
 
-	public Integer getIdGastoPessoa() {
-		return IdGastoPessoa;
+	public Integer getid() {
+		return id;
 	}
 
-	public void setIdGastoPessoa(Integer idGastoPessoa) {
-		IdGastoPessoa = idGastoPessoa;
+	public void setid(Integer idGastoPessoa) {
+		id = idGastoPessoa;
 	}
 
 	public Integer getGasto() {

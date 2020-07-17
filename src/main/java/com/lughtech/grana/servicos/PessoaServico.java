@@ -36,7 +36,7 @@ public class PessoaServico {
 		UsuarioSpringSecurity usuarioAtual = UsuarioLogadoServico.usuarioLogado();
 		Optional<Pessoa> pessoa = pessoaRepositorio.findById(id);
 		if (pessoa.get() != null) {
-			if (usuarioAtual == null || !pessoa.get().getusuarioCriacao().getIdUsuario().equals(usuarioAtual.getId())) {
+			if (usuarioAtual == null || !pessoa.get().getusuarioCriacao().getId().equals(usuarioAtual.getId())) {
 				throw new AutorizacaoException();
 			}
 		}
@@ -47,7 +47,7 @@ public class PessoaServico {
 		UsuarioSpringSecurity usuarioAtual = UsuarioLogadoServico.usuarioLogado();
 		Optional<Grana> grana = granaRepositorio.findById(idGrana);
 		if (grana.get() != null) {
-			if (usuarioAtual == null || !grana.get().getUsuario().getIdUsuario().equals(usuarioAtual.getId())) {
+			if (usuarioAtual == null || !grana.get().getUsuario().getId().equals(usuarioAtual.getId())) {
 				throw new AutorizacaoException();
 			}
 		}
@@ -56,16 +56,16 @@ public class PessoaServico {
 	}
 
 	public Pessoa salvarPessoa(Pessoa Pessoa) {
-		Pessoa.setIdPessoa(null);
+		Pessoa.setId(null);
 		return pessoaRepositorio.save(Pessoa);
 	}
 
 	public Pessoa atualizarPessoa(Pessoa pessoa) {
 		UsuarioSpringSecurity usuarioAtual = UsuarioLogadoServico.usuarioLogado();
-		if (usuarioAtual == null || !pessoa.getusuarioCriacao().getIdUsuario().equals(usuarioAtual.getId())) {
+		if (usuarioAtual == null || !pessoa.getusuarioCriacao().getId().equals(usuarioAtual.getId())) {
 			throw new AutorizacaoException();
 		}
-		Pessoa novaPessoa = buscarPessoaPorId(pessoa.getIdPessoa());
+		Pessoa novaPessoa = buscarPessoaPorId(pessoa.getId());
 		atualizarInformacoesPessoa(novaPessoa, pessoa);
 		return pessoaRepositorio.save(novaPessoa);
 	}
@@ -73,7 +73,7 @@ public class PessoaServico {
 	public void deletarPessoaPorId(Integer id) {
 		UsuarioSpringSecurity usuarioAtual = UsuarioLogadoServico.usuarioLogado();
 		Pessoa pessoa = buscarPessoaPorId(id);
-		if (usuarioAtual == null || !pessoa.getusuarioCriacao().getIdUsuario().equals(usuarioAtual.getId())) {
+		if (usuarioAtual == null || !pessoa.getusuarioCriacao().getId().equals(usuarioAtual.getId())) {
 			throw new AutorizacaoException();
 		}
 		try {

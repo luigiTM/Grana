@@ -33,7 +33,7 @@ public class GranaServico {
 		UsuarioSpringSecurity usuarioAtual = UsuarioLogadoServico.usuarioLogado();
 		Optional<Grana> grana = granaRepositorio.findById(id);
 		if (!grana.get().equals(null)) {
-			if (usuarioAtual == null || !grana.get().getUsuario().getIdUsuario().equals(usuarioAtual.getId())) {
+			if (usuarioAtual == null || !grana.get().getUsuario().getId().equals(usuarioAtual.getId())) {
 				throw new AutorizacaoException();
 			}
 		}
@@ -50,7 +50,7 @@ public class GranaServico {
 
 	public Grana atualizarGrana(Grana grana) {
 		UsuarioSpringSecurity usuarioAtual = UsuarioLogadoServico.usuarioLogado();
-		if (usuarioAtual == null || !grana.getUsuario().getIdUsuario().equals(usuarioAtual.getId())) {
+		if (usuarioAtual == null || !grana.getUsuario().getId().equals(usuarioAtual.getId())) {
 			throw new AutorizacaoException();
 		}
 		Grana novoGrana = buscarGranaPorId(grana.getIdGrana());
@@ -61,7 +61,7 @@ public class GranaServico {
 	public void deletarGranaPorId(Integer id) {
 		UsuarioSpringSecurity usuarioAtual = UsuarioLogadoServico.usuarioLogado();
 		Grana grana = buscarGranaPorId(id);
-		if (usuarioAtual == null || !grana.getUsuario().getIdUsuario().equals(usuarioAtual.getId())) {
+		if (usuarioAtual == null || !grana.getUsuario().getId().equals(usuarioAtual.getId())) {
 			throw new AutorizacaoException();
 		}
 		try {

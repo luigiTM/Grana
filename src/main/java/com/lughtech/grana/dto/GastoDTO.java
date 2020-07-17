@@ -14,7 +14,7 @@ public class GastoDTO implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	private Integer idGrana;
+	private Integer id;
 	@NotEmpty(message = "Tipo do gasto não pode ser vazio")
 	@Length(max = 20, message = "Tipo do gasto não pode ter mais que 20 caracteres")
 	private String tipo;
@@ -24,19 +24,19 @@ public class GastoDTO implements Serializable {
 	public GastoDTO() {
 	}
 
-	public GastoDTO(Integer idGrana, String tipo, Float valor, Date dataGasto) {
-		this.idGrana = idGrana;
+	public GastoDTO(Integer id, String tipo, Float valor, Date dataGasto) {
+		this.id = id;
 		this.tipo = tipo;
 		this.valor = valor;
 		this.dataGasto = dataGasto;
 	}
 
-	public Integer getIdGrana() {
-		return idGrana;
+	public Integer getId() {
+		return id;
 	}
 
-	public void setGrana(Integer idGrana) {
-		this.idGrana = idGrana;
+	public void setGrana(Integer id) {
+		this.id = id;
 	}
 
 	public String getTipo() {

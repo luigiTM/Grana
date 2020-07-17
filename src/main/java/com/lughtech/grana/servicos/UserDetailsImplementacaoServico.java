@@ -22,7 +22,7 @@ public class UserDetailsImplementacaoServico implements UserDetailsService {
 		if (usuario == null) {
 			throw new UsernameNotFoundException(email);
 		}
-		return new UsuarioSpringSecurity(usuario.getIdUsuario(), usuario.getEmail(), usuario.getSenha(), usuario.getPerfis());
+		return new UsuarioSpringSecurity(usuario.getId(), usuario.getEmail(), usuario.getSenha(), usuario.getPerfis());
 	}
 
 }

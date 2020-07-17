@@ -2,12 +2,15 @@ package com.lughtech.grana.dominio;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity
 public class GastoPessoa implements Serializable {
@@ -16,14 +19,18 @@ public class GastoPessoa implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer idGastoPessoa;
+	@Column(name = "id", nullable = false)
+	private Integer id;
 	@ManyToOne
 	@JoinColumn(name = "id_gasto")
+	@JsonBackReference
 	private Gasto gasto;
 	@ManyToOne
 	@JoinColumn(name = "id_pessoa")
 	private Pessoa pessoa;
+	@Column(name = "valor", nullable = false)
 	private Float valorGasto;
+	@Column(name = "percentual", nullable = false)
 	private Float percentualGasto;
 
 	public GastoPessoa() {
@@ -38,11 +45,11 @@ public class GastoPessoa implements Serializable {
 	}
 
 	public Integer getIdGastoPessoa() {
-		return idGastoPessoa;
+		return id;
 	}
 
-	public void setIdGastoPessoa(Integer idGastoPessoa) {
-		this.idGastoPessoa = idGastoPessoa;
+	public void setIdGastoPessoa(Integer id) {
+		this.id = id;
 	}
 
 	public Gasto getGasto() {

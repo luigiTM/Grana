@@ -2,6 +2,7 @@ package com.lughtech.grana.dominio;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -9,7 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Pessoa implements Serializable {
@@ -18,12 +19,15 @@ public class Pessoa implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer idPessoa;
+	@Column(name = "id", nullable = false)
+	private Integer id;
+	@Column(name = "nome", nullable = false)
 	private String nome;
 	@ManyToOne
 	@JoinColumn(name = "usuario_criacao")
-	@JsonBackReference
+	@JsonIgnore
 	private Usuario usuarioCriacao;
+	@Column(name = "email", nullable = true)
 	private String email;
 
 	public Pessoa() {
@@ -35,12 +39,12 @@ public class Pessoa implements Serializable {
 		this.email = email;
 	}
 
-	public Integer getIdPessoa() {
-		return idPessoa;
+	public Integer getId() {
+		return id;
 	}
 
-	public void setIdPessoa(Integer idPessoa) {
-		this.idPessoa = idPessoa;
+	public void setId(Integer id) {
+		this.id = id;
 	}
 
 	public String getNome() {

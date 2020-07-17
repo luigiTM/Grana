@@ -5,6 +5,7 @@ import java.sql.Timestamp;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -14,6 +15,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 public class Grana implements Serializable {
@@ -21,18 +23,23 @@ public class Grana implements Serializable {
 	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer idGrana;
+	@Column(name = "id", nullable = false)
+	private Integer id;
+	@Column(name = "nome", nullable = false)
 	private String nome;
 	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name = "id_usuario")
 	private Usuario usuario;
+	@Column(name = "criado_em", nullable = false)
 	private Timestamp criadoEm;
+	@Column(name = "modificado_em", nullable = true)
 	private Timestamp modificadoEm;
+	@Column(name = "codigo_de_acesso", nullable = false)
 	private String codigoDeAcesso;
 
-	@JsonIgnore
 	@OneToMany(mappedBy = "grana")
+	@JsonManagedReference
 	private Set<Gasto> gastos = new HashSet<>();
 
 	public Grana() {
@@ -48,11 +55,11 @@ public class Grana implements Serializable {
 	}
 
 	public Integer getIdGrana() {
-		return idGrana;
+		return id;
 	}
 
-	public void setIdGrana(Integer idGrana) {
-		this.idGrana = idGrana;
+	public void setIdGrana(Integer id) {
+		this.id = id;
 	}
 
 	public String getNome() {
@@ -107,7 +114,7 @@ public class Grana implements Serializable {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((idGrana == null) ? 0 : idGrana.hashCode());
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		return result;
 	}
 
@@ -120,10 +127,10 @@ public class Grana implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		Grana other = (Grana) obj;
-		if (idGrana == null) {
-			if (other.idGrana != null)
+		if (id == null) {
+			if (other.id != null)
 				return false;
-		} else if (!idGrana.equals(other.idGrana))
+		} else if (!id.equals(other.id))
 			return false;
 		return true;
 	}

@@ -28,12 +28,18 @@ public class Usuario implements Serializable {
 	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer idUsuario;
+	@Column(name = "id", nullable = false)
+	private Integer id;
+	@Column(name = "nome", nullable = false)
 	private String nome;
 	@JsonIgnore
+	@Column(name = "senha", nullable = false)
 	private String senha;
+	@Column(name = "email", nullable = false)
 	private String email;
+	@Column(name = "criado_em", nullable = false)
 	private Timestamp criadoEm;
+	@Column(name = "ultimo_acesso", nullable = true)
 	private Timestamp ultimoAcesso;
 
 	@ElementCollection(fetch = FetchType.EAGER)
@@ -58,12 +64,12 @@ public class Usuario implements Serializable {
 		adicionarPerfil(Perfil.USUARIO);
 	}
 
-	public Integer getIdUsuario() {
-		return idUsuario;
+	public Integer getId() {
+		return id;
 	}
 
-	public void setIdUsuario(Integer id) {
-		this.idUsuario = id;
+	public void setId(Integer id) {
+		this.id = id;
 	}
 
 	public String getNome() {
@@ -127,7 +133,7 @@ public class Usuario implements Serializable {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((idUsuario == null) ? 0 : idUsuario.hashCode());
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		return result;
 	}
 
@@ -140,10 +146,10 @@ public class Usuario implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		Usuario other = (Usuario) obj;
-		if (idUsuario == null) {
-			if (other.idUsuario != null)
+		if (id == null) {
+			if (other.id != null)
 				return false;
-		} else if (!idUsuario.equals(other.idUsuario))
+		} else if (!id.equals(other.id))
 			return false;
 		return true;
 	}

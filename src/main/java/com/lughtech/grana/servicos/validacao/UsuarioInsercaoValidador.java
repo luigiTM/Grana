@@ -42,7 +42,7 @@ public class UsuarioInsercaoValidador implements ConstraintValidator<UsuarioInse
 			Map<?, ?> mapaRequisicao = (Map<?, ?>) requisicao.getAttribute(HandlerMapping.URI_TEMPLATE_VARIABLES_ATTRIBUTE);
 			Integer uriId = Integer.parseInt((mapaRequisicao.get("id") == null ? "0" : (String) mapaRequisicao.get("id")));
 			Usuario usuarioExistente = usuarioRepositorio.findByEmail(novoUsuarioDTO.getEmail());
-			if (usuarioExistente != null && !usuarioExistente.getIdUsuario().equals(uriId)) {
+			if (usuarioExistente != null && !usuarioExistente.getId().equals(uriId)) {
 				lista.add(new MensagemCampos("email", "Email já existente"));
 			}
 		}

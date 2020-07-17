@@ -28,7 +28,7 @@ public class GranaDTO implements Serializable {
 	public GranaDTO(Grana grana) {
 		this.id = grana.getIdGrana();
 		this.nome = grana.getNome();
-		this.usuario = grana.getUsuario().getIdUsuario();
+		this.usuario = grana.getUsuario().getId();
 		this.codigoDeAcesso = grana.getCodigoDeAcesso();
 	}
 

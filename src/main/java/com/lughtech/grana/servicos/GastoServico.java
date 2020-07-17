@@ -29,7 +29,7 @@ public class GastoServico {
 		UsuarioSpringSecurity usuarioAtual = UsuarioLogadoServico.usuarioLogado();
 		Optional<Gasto> gasto = gastoRepositorio.findById(id);
 		if (!gasto.get().equals(null)) {
-			if (usuarioAtual == null || !gasto.get().getGrana().getUsuario().getIdUsuario().equals(usuarioAtual.getId())) {
+			if (usuarioAtual == null || !gasto.get().getGrana().getUsuario().getId().equals(usuarioAtual.getId())) {
 				throw new AutorizacaoException();
 			}
 		}
@@ -40,7 +40,7 @@ public class GastoServico {
 		UsuarioSpringSecurity usuarioAtual = UsuarioLogadoServico.usuarioLogado();
 		Optional<Grana> grana = granaRepositorio.findById(idGrana);
 		if (!grana.get().equals(null)) {
-			if (usuarioAtual == null || !grana.get().getUsuario().getIdUsuario().equals(usuarioAtual.getId())) {
+			if (usuarioAtual == null || !grana.get().getUsuario().getId().equals(usuarioAtual.getId())) {
 				throw new AutorizacaoException();
 			}
 		}
@@ -55,7 +55,7 @@ public class GastoServico {
 	public Gasto atualizarGasto(Gasto gasto) {
 		UsuarioSpringSecurity usuarioAtual = UsuarioLogadoServico.usuarioLogado();
 		Gasto novoGasto = buscarGastoPorId(gasto.getIdGasto());
-		if (usuarioAtual == null || !novoGasto.getGrana().getUsuario().getIdUsuario().equals(usuarioAtual.getId())) {
+		if (usuarioAtual == null || !novoGasto.getGrana().getUsuario().getId().equals(usuarioAtual.getId())) {
 			throw new AutorizacaoException();
 		}
 		atualizarInformacoesGasto(novoGasto, gasto);
@@ -65,7 +65,7 @@ public class GastoServico {
 	public void deletarGastoPorId(Integer id) {
 		UsuarioSpringSecurity usuarioAtual = UsuarioLogadoServico.usuarioLogado();
 		Gasto gasto = buscarGastoPorId(id);
-		if (usuarioAtual == null || !gasto.getGrana().getUsuario().getIdUsuario().equals(usuarioAtual.getId())) {
+		if (usuarioAtual == null || !gasto.getGrana().getUsuario().getId().equals(usuarioAtual.getId())) {
 			throw new AutorizacaoException();
 		}
 		try {
@@ -77,17 +77,17 @@ public class GastoServico {
 
 	public Gasto deUmDTO(GastoDTO gastoDTO) {
 		Gasto gasto;
-		if (gastoDTO.getIdGrana() == null) {
+		if (gastoDTO.getId() == null) {
 			gasto = new Gasto(null, gastoDTO.getTipo(), gastoDTO.getValor(), gastoDTO.getDataGasto());
 		} else {
-			Grana grana = granaRepositorio.getOne(gastoDTO.getIdGrana());
+			Grana grana = granaRepositorio.getOne(gastoDTO.getId());
 			gasto = new Gasto(grana, gastoDTO.getTipo(), gastoDTO.getValor(), gastoDTO.getDataGasto());
 		}
 		return gasto;
 	}
 
 	private void atualizarInformacoesGasto(Gasto novoGasto, Gasto gasto) {
-		novoGasto.setDataGasto((gasto.getDataGasto() == null) ? novoGasto.getDataGasto() : gasto.getDataGasto());
+		novoGasto.setData((gasto.getData() == null) ? novoGasto.getData() : gasto.getData());
 		novoGasto.setTipo((gasto.getTipo() == null) ? novoGasto.getTipo() : gasto.getTipo());
 		novoGasto.setValor((gasto.getValor() == null) ? novoGasto.getValor() : gasto.getValor());
 	}

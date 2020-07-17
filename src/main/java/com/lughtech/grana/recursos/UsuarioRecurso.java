@@ -45,14 +45,14 @@ public class UsuarioRecurso {
 	public ResponseEntity<Void> inserirUsuario(@Valid @RequestBody UsuarioDTO usuarioDTO) {
 		Usuario usuario = usuarioServico.deUmDTO(usuarioDTO);
 		usuario = usuarioServico.salvarUsuario(usuario);
-		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(usuario.getIdUsuario()).toUri();
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(usuario.getId()).toUri();
 		return ResponseEntity.created(uri).build();
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
 	public ResponseEntity<Void> atualizarUsuario(@Valid @RequestBody UsuarioDTO usuarioDTO, @PathVariable Integer id) {
 		Usuario usuario = usuarioServico.deUmDTO(usuarioDTO);
-		usuario.setIdUsuario(id);
+		usuario.setId(id);
 		usuario = usuarioServico.atualizarUsuario(usuario);
 		return ResponseEntity.noContent().build();
 	}

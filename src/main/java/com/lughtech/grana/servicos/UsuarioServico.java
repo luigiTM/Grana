@@ -51,13 +51,13 @@ public class UsuarioServico {
 	}
 
 	public Usuario salvarUsuario(Usuario usuario) {
-		usuario.setIdUsuario(null);
+		usuario.setId(null);
 		usuario.setCriadoEm(new Timestamp(System.currentTimeMillis()));
 		return usuarioRepositorio.save(usuario);
 	}
 
 	public Usuario atualizarUsuario(Usuario usuario) {
-		Usuario novoUsuario = buscarUsuarioPorId(usuario.getIdUsuario());
+		Usuario novoUsuario = buscarUsuarioPorId(usuario.getId());
 		atualizaInformacoesUsuario(usuario, novoUsuario);
 		return usuarioRepositorio.save(novoUsuario);
 	}
