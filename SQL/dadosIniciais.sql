@@ -8,6 +8,8 @@ INSERT INTO grana (id,nome,id_usuario,criado_em,modificado_em,codigo_de_acesso) 
 INSERT INTO gasto (id,id_grana,tipo,valor,data) VALUES (1,1,'Aluguel',1000.00,NOW());
 INSERT INTO gasto (id,id_grana,tipo,valor,data) VALUES (2,1,'Condominio',600.00,NOW());
 INSERT INTO gasto (id,id_grana,tipo,valor,data) VALUES (3,1,'Luz',100.00,NOW());
+INSERT INTO gasto (id,id_grana,tipo,valor,data) VALUES (4,1,'Internet',200.00,NOW());
+INSERT INTO gasto (id,id_grana,tipo,valor,data) VALUES (5,1,'Diarista',200.00,NOW());
 
 INSERT INTO pessoa (id,nome,usuario_criacao,email) VALUES (1,'Luigi1',1,'luigitosin@gmail.com');
 INSERT INTO pessoa (id,nome,usuario_criacao,email) VALUES (2,'Luigi2',1,'luigitosin@gmail.com');
@@ -20,3 +22,10 @@ INSERT INTO gasto_pessoa (id_gasto,id_pessoa,valor,percentual,id) VALUES (2,2,30
 
 INSERT INTO gasto_pessoa (id_gasto,id_pessoa,valor,percentual,id) VALUES (3,1,40.00,0.4,5);
 INSERT INTO gasto_pessoa (id_gasto,id_pessoa,valor,percentual,id) VALUES (3,2,60.00,0.6,6);
+
+INSERT INTO gasto_pessoa (id_gasto,id_pessoa,valor,percentual,id) VALUES (4,1,200.00,1,7);
+
+INSERT INTO gasto_pessoa (id_gasto,id_pessoa,valor,percentual,id) VALUES (5,2,200.00,1,8);
+
+INSERT INTO gasto_pessoa (id_gasto,id_pessoa,valor,percentual,id) VALUES (4,2,0,0,9);
+INSERT INTO gasto_pessoa (id_gasto,id_pessoa,valor,percentual,id) VALUES (5,1,0,0,10);
