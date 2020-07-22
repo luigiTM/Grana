@@ -36,11 +36,11 @@ public class ConfiguracaoDeSeguranca extends WebSecurityConfigurerAdapter {
 	private Environment ambiente;
 
 	private static final String[] PUBLICOS_POST = { "/usuario/**", "/autenticacao/**" };
-	private static final String[] PUBLICOS_GET = {};
+	private static final String[] PUBLICOS_GET = {"/grana/codigoDeAcesso/**"};
 	private static final String[] PUBLICOS = {};
 
 	protected void configure(HttpSecurity segurancaHttp) throws Exception {
-		if (Arrays.asList(ambiente.getActiveProfiles()).contains("test")) {
+		if (Arrays.asList(ambiente.getActiveProfiles()).contains("dev")) {
 			segurancaHttp.headers().frameOptions().disable();
 		}
 		segurancaHttp.cors().and().csrf().disable();

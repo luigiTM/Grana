@@ -40,6 +40,11 @@ public class GranaServico {
 		return grana.orElseThrow(() -> new ObjetoNaoEncontradoException("Objeto do tipo " + Grana.class.getSimpleName() + " não encontrado!"));
 	}
 
+	public Grana buscarGranaPorCodigoDeAcesso(String codigodeAcesso) {
+		Optional<Grana> grana = granaRepositorio.findByCodigoDeACesso(codigodeAcesso);
+		return grana.orElseThrow(() -> new ObjetoNaoEncontradoException("Código de acesso inválido"));
+	}
+
 	public Grana salvarGrana(Grana grana) {
 		grana.setIdGrana(null);
 		grana.setCriadoEm(new Timestamp(System.currentTimeMillis()));

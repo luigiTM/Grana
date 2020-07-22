@@ -32,6 +32,12 @@ public class GranaRecurso {
 		return ResponseEntity.ok().body(grana);
 	}
 
+	@RequestMapping(value = "/codigoDeAcesso/{codigoDeAcesso}", method = RequestMethod.GET)
+	public ResponseEntity<Grana> buscarGranaPoId(@PathVariable String codigoDeAcesso) {
+		Grana grana = granaServico.buscarGranaPorCodigoDeAcesso(codigoDeAcesso);
+		return ResponseEntity.ok().body(grana);
+	}
+
 	@RequestMapping(method = RequestMethod.POST)
 	public ResponseEntity<Void> inserirGrana(@Valid @RequestBody GranaDTO granaDTO) {
 		Grana novoGrana = granaServico.deUmDTO(granaDTO);
