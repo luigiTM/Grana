@@ -24,6 +24,7 @@ public class GastoPessoaInsercaoValidador implements ConstraintValidator<GastoPe
 
 	@Override
 	public void initialize(GastoPessoaInsercao gastoPessoaInsercao) {
+		throw new UnsupportedOperationException();
 	}
 
 	@Override

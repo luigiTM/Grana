@@ -21,6 +21,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lughtech.grana.dto.CredenciaisDTO;
 import com.lughtech.grana.seguranca.UsuarioSpringSecurity;
 import com.lughtech.grana.seguranca.UtilitarioJWT;
+import com.lughtech.grana.seguranca.excecoes.FalhaDeAutenticacaoException;
 
 public class FiltroDeAutenticacaoJWT extends UsernamePasswordAuthenticationFilter {
 
@@ -39,19 +40,16 @@ public class FiltroDeAutenticacaoJWT extends UsernamePasswordAuthenticationFilte
 		try {
 			CredenciaisDTO creds = new ObjectMapper().readValue(requisicao.getInputStream(), CredenciaisDTO.class);
 
-			UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(creds.getEmail(),
-					creds.getSenha(), new ArrayList<>());
+			UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(creds.getEmail(), creds.getSenha(), new ArrayList<>());
 
-			Authentication auth = gerenciadorDeAutenticacao.authenticate(authToken);
-			return auth;
+			return gerenciadorDeAutenticacao.authenticate(authToken);
 		} catch (IOException e) {
-			throw new RuntimeException(e);
+			throw new FalhaDeAutenticacaoException(e.getMessage());
 		}
 	}
 
 	@Override
-	public void successfulAuthentication(HttpServletRequest requisicao, HttpServletResponse resposta,
-			FilterChain cadeiaDeFiltro, Authentication autenticacao) throws IOException, ServerException {
+	public void successfulAuthentication(HttpServletRequest requisicao, HttpServletResponse resposta, FilterChain cadeiaDeFiltro, Authentication autenticacao) throws IOException, ServerException {
 		String username = ((UsuarioSpringSecurity) autenticacao.getPrincipal()).getUsername();
 		Integer id = ((UsuarioSpringSecurity) autenticacao.getPrincipal()).getId();
 		String token = utilitarioJwt.generateToken(username, id);
@@ -62,8 +60,7 @@ public class FiltroDeAutenticacaoJWT extends UsernamePasswordAuthenticationFilte
 	private class ManipuladorDeFalhaDeAutenticacaoJWT implements AuthenticationFailureHandler {
 
 		@Override
-		public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
-				AuthenticationException exception) throws IOException, ServletException {
+		public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
 			response.setStatus(401);
 			response.setContentType("application/json");
 			response.getWriter().append(json());
@@ -71,8 +68,7 @@ public class FiltroDeAutenticacaoJWT extends UsernamePasswordAuthenticationFilte
 
 		private String json() {
 			long date = new Date().getTime();
-			return "{\"timestamp\": " + date + ", " + "\"status\": 401, " + "\"error\": \"Não autorizado\", "
-					+ "\"message\": \"Email ou senha inválidos\", " + "\"path\": \"/login\"}";
+			return "{\"timestamp\": " + date + ", " + "\"status\": 401, " + "\"error\": \"Não autorizado\", " + "\"message\": \"Email ou senha inválidos\", " + "\"path\": \"/login\"}";
 		}
 	}
 

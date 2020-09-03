@@ -28,10 +28,8 @@ public class GastoServico {
 	public Gasto buscarGastoPorId(Integer id) {
 		UsuarioSpringSecurity usuarioAtual = UsuarioLogadoServico.usuarioLogado();
 		Optional<Gasto> gasto = gastoRepositorio.findById(id);
-		if (!gasto.get().equals(null)) {
-			if (usuarioAtual == null || !gasto.get().getGrana().getUsuario().getId().equals(usuarioAtual.getId())) {
-				throw new AutorizacaoException();
-			}
+		if (usuarioAtual == null || (gasto.isPresent() && !gasto.get().getGrana().getUsuario().getId().equals(usuarioAtual.getId()))) {
+			throw new AutorizacaoException();
 		}
 		return gasto.orElseThrow(() -> new ObjetoNaoEncontradoException(Gasto.class.getSimpleName()));
 	}
@@ -39,10 +37,8 @@ public class GastoServico {
 	public List<Gasto> buscarGastosPorGrana(Integer idGrana) {
 		UsuarioSpringSecurity usuarioAtual = UsuarioLogadoServico.usuarioLogado();
 		Optional<Grana> grana = granaRepositorio.findById(idGrana);
-		if (!grana.get().equals(null)) {
-			if (usuarioAtual == null || !grana.get().getUsuario().getId().equals(usuarioAtual.getId())) {
-				throw new AutorizacaoException();
-			}
+		if (usuarioAtual == null || (grana.isPresent() && !grana.get().getUsuario().getId().equals(usuarioAtual.getId()))) {
+			throw new AutorizacaoException();
 		}
 		return gastoRepositorio.findByGrana(idGrana);
 	}

@@ -7,10 +7,13 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -25,19 +28,19 @@ public class PessoaRecurso {
 	@Autowired
 	private PessoaServico pessoaServico;
 
-	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
+	@GetMapping(value = "/{id}")
 	public ResponseEntity<Pessoa> buscarPessoaPorId(@PathVariable Integer id) {
 		Pessoa pessoa = pessoaServico.buscarPessoaPorId(id);
 		return ResponseEntity.ok().body(pessoa);
 	}
-	
-	@RequestMapping(value = "/{idGrana}", method = RequestMethod.GET)
+
+	@GetMapping(value = "/{idGrana}")
 	public ResponseEntity<List<Pessoa>> buscarPessoasPorGrana(@PathVariable Integer idGrana) {
 		List<Pessoa> pessoas = pessoaServico.buscarPessoasPorGrana(idGrana);
 		return ResponseEntity.ok().body(pessoas);
 	}
 
-	@RequestMapping(method = RequestMethod.POST)
+	@PostMapping
 	public ResponseEntity<Void> inserirPessoa(@Valid @RequestBody PessoaDTO pessoaDTO) {
 		Pessoa novaPessoa = pessoaServico.deUmDTO(pessoaDTO);
 		novaPessoa = pessoaServico.salvarPessoa(novaPessoa);
@@ -45,15 +48,15 @@ public class PessoaRecurso {
 		return ResponseEntity.created(uri).build();
 	}
 
-	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+	@PutMapping(value = "/{id}")
 	public ResponseEntity<Void> atualizarPessoa(@Valid @RequestBody PessoaDTO pessoaDTO, @PathVariable Integer id) {
 		Pessoa pessoa = pessoaServico.deUmDTO(pessoaDTO);
 		pessoa.setId(id);
-		pessoa = pessoaServico.atualizarPessoa(pessoa);
+		pessoaServico.atualizarPessoa(pessoa);
 		return ResponseEntity.noContent().build();
 	}
 
-	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+	@DeleteMapping(value = "/{id}")
 	public ResponseEntity<Void> deletarPessoaPorId(@PathVariable Integer id) {
 		pessoaServico.deletarPessoaPorId(id);
 		return ResponseEntity.noContent().build();

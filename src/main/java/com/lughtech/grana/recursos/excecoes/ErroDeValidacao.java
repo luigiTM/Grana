@@ -7,7 +7,7 @@ public class ErroDeValidacao extends ErroPadrao {
 
 	private static final long serialVersionUID = 1L;
 
-	public List<MensagemCampos> mensagensCampos = new ArrayList<MensagemCampos>();
+	private List<MensagemCampos> mensagensCampos = new ArrayList<>();
 
 	public ErroDeValidacao(Long timestamp, Integer status, String error, String message, String path) {
 		super(timestamp, status, error, message, path);

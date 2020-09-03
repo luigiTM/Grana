@@ -8,10 +8,13 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -26,13 +29,13 @@ public class GastoPessoaRecurso {
 	@Autowired
 	private GastoPessoaServico gastoPessoaServico;
 
-	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
+	@GetMapping(value = "/{id}")
 	public ResponseEntity<GastoPessoa> buscarGastoPessoaPorId(@PathVariable Integer id) {
 		GastoPessoa gastoPessoa = gastoPessoaServico.buscarGastoPessoaPorId(id);
 		return ResponseEntity.ok().body(gastoPessoa);
 	}
 
-	@RequestMapping(method = RequestMethod.POST)
+	@PostMapping
 	public ResponseEntity<Void> inserirGasto(@Valid @RequestBody GastoPessoaDTO gastoPessoaDTO) {
 		GastoPessoa gastoPessoa = gastoPessoaServico.deUmDTO(gastoPessoaDTO);
 		gastoPessoa = gastoPessoaServico.salvarGastoPessoa(gastoPessoa);
@@ -40,7 +43,7 @@ public class GastoPessoaRecurso {
 		return ResponseEntity.created(uri).build();
 	}
 
-	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+	@PutMapping(value = "/{id}")
 	public ResponseEntity<Void> atualizarGasto(@Valid @RequestBody GastoPessoaDTO gastoPessoaDTO, @PathVariable Integer id) {
 		GastoPessoa gastoPessoa = gastoPessoaServico.deUmDTO(gastoPessoaDTO);
 		gastoPessoa.setIdGastoPessoa(id);
@@ -48,14 +51,14 @@ public class GastoPessoaRecurso {
 		return ResponseEntity.noContent().build();
 	}
 
-	@RequestMapping(value = "/gasto/{id}", method = RequestMethod.GET)
+	@GetMapping(value = "/gasto/{id}")
 	public ResponseEntity<List<GastoPessoaDTO>> buscarGastoPessoaPorGasto(@PathVariable Integer id) {
 		List<GastoPessoa> gastosPessoas = gastoPessoaServico.buscarGastoPessoaPorGasto(id);
 		List<GastoPessoaDTO> gastosPessoasDTO = gastosPessoas.stream().map(gastoPessoa -> new GastoPessoaDTO(gastoPessoa)).collect(Collectors.toList());
 		return ResponseEntity.ok().body(gastosPessoasDTO);
 	}
 
-	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+	@DeleteMapping(value = "/{id}")
 	public ResponseEntity<Void> deletarGastoPorId(@PathVariable Integer id) {
 		gastoPessoaServico.deletarGastoPessoaPorId(id);
 		return ResponseEntity.noContent().build();

@@ -81,8 +81,7 @@ public class UsuarioServico {
 	}
 
 	public Usuario deUmDTO(UsuarioDTO usuarioDTO) {
-		Usuario usuario = new Usuario(usuarioDTO.getNome(), usuarioDTO.getEmail(), codificadorDeSenha.encode(usuarioDTO.getSenha()));
-		return usuario;
+		return new Usuario(usuarioDTO.getNome(), usuarioDTO.getEmail(), codificadorDeSenha.encode(usuarioDTO.getSenha()));
 	}
 
 	private void atualizaInformacoesUsuario(Usuario usuario, Usuario novoUsuario) {

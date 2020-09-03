@@ -25,6 +25,7 @@ public class UsuarioInsercaoValidador implements ConstraintValidator<UsuarioInse
 
 	@Override
 	public void initialize(UsuarioInsercao usuarioInsercao) {
+		throw new UnsupportedOperationException();
 	}
 
 	@Override

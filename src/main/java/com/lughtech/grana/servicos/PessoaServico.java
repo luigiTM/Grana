@@ -35,10 +35,8 @@ public class PessoaServico {
 	public Pessoa buscarPessoaPorId(Integer id) {
 		UsuarioSpringSecurity usuarioAtual = UsuarioLogadoServico.usuarioLogado();
 		Optional<Pessoa> pessoa = pessoaRepositorio.findById(id);
-		if (pessoa.get() != null) {
-			if (usuarioAtual == null || !pessoa.get().getusuarioCriacao().getId().equals(usuarioAtual.getId())) {
-				throw new AutorizacaoException();
-			}
+		if (usuarioAtual == null || (pessoa.isPresent() && !pessoa.get().getusuarioCriacao().getId().equals(usuarioAtual.getId()))) {
+			throw new AutorizacaoException();
 		}
 		return pessoa.orElseThrow(() -> new ObjetoNaoEncontradoException(Pessoa.class.getSimpleName()));
 	}
@@ -46,10 +44,8 @@ public class PessoaServico {
 	public List<Pessoa> buscarPessoasPorGrana(Integer idGrana) {
 		UsuarioSpringSecurity usuarioAtual = UsuarioLogadoServico.usuarioLogado();
 		Optional<Grana> grana = granaRepositorio.findById(idGrana);
-		if (grana.get() != null) {
-			if (usuarioAtual == null || !grana.get().getUsuario().getId().equals(usuarioAtual.getId())) {
-				throw new AutorizacaoException();
-			}
+		if (usuarioAtual == null || (grana.isPresent() && !grana.get().getUsuario().getId().equals(usuarioAtual.getId()))) {
+			throw new AutorizacaoException();
 		}
 //		return pessoaRepositorio.findByGrana(idGrana);
 		return null;

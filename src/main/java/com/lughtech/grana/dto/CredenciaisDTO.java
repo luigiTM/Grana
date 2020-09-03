@@ -3,7 +3,7 @@ package com.lughtech.grana.dto;
 import java.io.Serializable;
 
 public class CredenciaisDTO implements Serializable {
-	
+
 	private static final long serialVersionUID = 1L;
 
 	private String nome;
@@ -11,6 +11,13 @@ public class CredenciaisDTO implements Serializable {
 	private String senha;
 
 	public CredenciaisDTO() {
+	}
+
+	public CredenciaisDTO(String nome, String email, String senha) {
+		super();
+		this.nome = nome;
+		this.email = email;
+		this.senha = senha;
 	}
 
 	public String getEmail() {

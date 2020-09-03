@@ -113,7 +113,7 @@ public class Usuario implements Serializable {
 	}
 
 	public Set<Perfil> getPerfis() {
-		return perfis.stream().map(perfil -> Perfil.paraEnumerado(perfil)).collect(Collectors.toSet());
+		return perfis.stream().map(Perfil::paraEnumerado).collect(Collectors.toSet());
 	}
 
 	public void adicionarPerfil(Perfil perfil) {

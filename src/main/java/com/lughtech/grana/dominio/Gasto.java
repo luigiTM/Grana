@@ -41,7 +41,7 @@ public class Gasto implements Serializable {
 	@JsonIgnore
 	@OneToMany(mappedBy = "gasto")
 	@JsonManagedReference
-	private List<GastoPessoa> gastosPessoas = new ArrayList<GastoPessoa>();
+	private List<GastoPessoa> gastosPessoas = new ArrayList<>();
 
 	public Gasto() {
 	}

@@ -37,9 +37,9 @@ public class GastoPessoaServico {
 		return gastoPessoaRepositorio.save(gastoPessoa);
 	}
 
-	public GastoPessoa atualizarGastoPessoa(GastoPessoa GastoPessoa) {
-		GastoPessoa novoGastoPessoa = buscarGastoPessoaPorId(GastoPessoa.getIdGastoPessoa());
-		atualizarInformacoesGastoPessoa(novoGastoPessoa, GastoPessoa);
+	public GastoPessoa atualizarGastoPessoa(GastoPessoa gastoPessoa) {
+		GastoPessoa novoGastoPessoa = buscarGastoPessoaPorId(gastoPessoa.getIdGastoPessoa());
+		atualizarInformacoesGastoPessoa(novoGastoPessoa, gastoPessoa);
 		return gastoPessoaRepositorio.save(novoGastoPessoa);
 	}
 

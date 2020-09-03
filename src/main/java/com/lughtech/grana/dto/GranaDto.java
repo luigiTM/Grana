@@ -9,7 +9,7 @@ import org.hibernate.validator.constraints.Length;
 
 import com.lughtech.grana.dominio.Grana;
 
-public class GranaDTO implements Serializable {
+public class GranaDto implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -21,11 +21,11 @@ public class GranaDTO implements Serializable {
 	private String codigoDeAcesso;
 	private Timestamp modificadoEm;
 
-	public GranaDTO() {
+	public GranaDto() {
 
 	}
 
-	public GranaDTO(Grana grana) {
+	public GranaDto(Grana grana) {
 		this.id = grana.getIdGrana();
 		this.nome = grana.getNome();
 		this.usuario = grana.getUsuario().getId();

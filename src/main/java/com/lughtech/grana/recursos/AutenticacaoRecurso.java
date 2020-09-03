@@ -5,12 +5,12 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.lughtech.grana.dto.EmailDTO;
+import com.lughtech.grana.dto.EmailDto;
 import com.lughtech.grana.seguranca.UsuarioSpringSecurity;
 import com.lughtech.grana.seguranca.UtilitarioJWT;
 import com.lughtech.grana.servicos.AutenticadorServico;
@@ -26,7 +26,7 @@ public class AutenticacaoRecurso {
 	@Autowired
 	private AutenticadorServico autenticadorServico;
 
-	@RequestMapping(value = "/atualizarToken", method = RequestMethod.POST)
+	@PostMapping(value = "/atualizarToken")
 	public ResponseEntity<Void> refreshToken(HttpServletResponse resposta) {
 		UsuarioSpringSecurity usuario = UsuarioLogadoServico.usuarioLogado();
 		String token = utillitarioJWT.generateToken(usuario.getUsername(), usuario.getId());
@@ -35,8 +35,8 @@ public class AutenticacaoRecurso {
 		return ResponseEntity.noContent().build();
 	}
 
-	@RequestMapping(value = "/esqueciSenha", method = RequestMethod.POST)
-	public ResponseEntity<Void> forgot(@Valid @RequestBody EmailDTO emailDTO) {
+	@PostMapping(value = "/esqueciSenha")
+	public ResponseEntity<Void> forgot(@Valid @RequestBody EmailDto emailDTO) {
 		autenticadorServico.enviarNovaSenha(emailDTO.getEmail());
 		return ResponseEntity.noContent().build();
 	}

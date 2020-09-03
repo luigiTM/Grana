@@ -13,7 +13,7 @@ import org.springframework.util.DigestUtils;
 
 import com.lughtech.grana.dominio.Grana;
 import com.lughtech.grana.dominio.Usuario;
-import com.lughtech.grana.dto.GranaDTO;
+import com.lughtech.grana.dto.GranaDto;
 import com.lughtech.grana.repositorio.GranaRepositorio;
 import com.lughtech.grana.repositorio.UsuarioRepositorio;
 import com.lughtech.grana.seguranca.UsuarioSpringSecurity;
@@ -32,10 +32,8 @@ public class GranaServico {
 	public Grana buscarGranaPorId(Integer id) {
 		UsuarioSpringSecurity usuarioAtual = UsuarioLogadoServico.usuarioLogado();
 		Optional<Grana> grana = granaRepositorio.findById(id);
-		if (!grana.get().equals(null)) {
-			if (usuarioAtual == null || !grana.get().getUsuario().getId().equals(usuarioAtual.getId())) {
-				throw new AutorizacaoException();
-			}
+		if (usuarioAtual == null || (grana.isPresent() && !grana.get().getUsuario().getId().equals(usuarioAtual.getId()))) {
+			throw new AutorizacaoException();
 		}
 		return grana.orElseThrow(() -> new ObjetoNaoEncontradoException("Objeto do tipo " + Grana.class.getSimpleName() + " não encontrado!"));
 	}
@@ -82,17 +80,23 @@ public class GranaServico {
 			throw new AutorizacaoException();
 		}
 		PageRequest requisicaoPaginada = PageRequest.of(pagina, linhaPagina, Direction.valueOf(direcao), ordenacao);
-		Usuario usuario = usuarioRepositorio.findById(idUsuario).get();
-		return granaRepositorio.findByUsuario(usuario, requisicaoPaginada);
+		Optional<Usuario> usuario = usuarioRepositorio.findById(idUsuario);
+		if (usuario.isEmpty()) {
+			throw new ObjetoNaoEncontradoException(Usuario.class.getSimpleName());
+		}
+		return granaRepositorio.findByUsuario(usuario.get(), requisicaoPaginada);
 	}
 
-	public Grana deUmDTO(GranaDTO granaDTO) {
+	public Grana deUmDTO(GranaDto granaDTO) {
 		Grana grana;
 		if (granaDTO.getUsuario() == null) {
 			grana = new Grana(granaDTO.getNome(), null);
 		} else {
-			Usuario usuario = usuarioRepositorio.findById(granaDTO.getUsuario()).get();
-			grana = new Grana(granaDTO.getNome(), usuario);
+			Optional<Usuario> usuario = usuarioRepositorio.findById(granaDTO.getUsuario());
+			if (usuario.isEmpty()) {
+				throw new ObjetoNaoEncontradoException(Usuario.class.getSimpleName());
+			}
+			grana = new Grana(granaDTO.getNome(), usuario.get());
 		}
 		return grana;
 	}
