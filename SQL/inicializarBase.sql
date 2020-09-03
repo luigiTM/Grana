@@ -1,9 +1,3 @@
-DROP DATABASE IF EXISTS grana;
-
-CREATE DATABASE grana TABLESPACE grana;
-
-SET search_path TO grana
-
 CREATE TABLE IF NOT EXISTS Usuario(
 	id serial PRIMARY KEY,
 	nome varchar(50) NOT NULL,
