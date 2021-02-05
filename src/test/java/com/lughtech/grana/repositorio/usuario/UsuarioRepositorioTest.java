@@ -2,6 +2,7 @@ package com.lughtech.grana.repositorio.usuario;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.sql.Timestamp;
 import java.util.HashSet;
@@ -21,7 +22,7 @@ import com.lughtech.grana.repositorio.UsuarioRepositorio;
 
 @SpringBootTest
 @ActiveProfiles(profiles = "test")
-public class UsuarioRepositorioTest {
+class UsuarioRepositorioTest {
 
 	@Autowired
 	UsuarioRepositorio usuarioRepositorio;
@@ -36,24 +37,23 @@ public class UsuarioRepositorioTest {
 
 	@Test
 	@Transactional
-	public void salvarUsuario() throws Exception {
+	void salvarUsuario() throws Exception {
 		usuario = usuarioRepositorio.save(usuario);
-
 		Set<Perfil> perfis = new HashSet<>();
 		perfis.add(Perfil.USUARIO);
 
 		Usuario doBanco = usuarioRepositorio.findById(usuario.getId()).get();
 		assertEquals("Luigi", doBanco.getNome());
 		assertEquals("luigitosin@hotmail.com", doBanco.getEmail());
-		assertEquals("1234567890", "1234567890");
+		assertEquals("1234567890", doBanco.getSenha());
 		assertEquals(usuario.getPerfis(), perfis);
-//		assertEquals(usuario.getGranas(), new ArrayList<Grana>());
+		assertTrue(usuario.getGranas().isEmpty());
 		assertNull(usuario.getUltimoAcesso());
 	}
 
 	@Test
 	@Transactional
-	public void atualizarUsuario() throws Exception {
+	void atualizarUsuario() throws Exception {
 		usuario = usuarioRepositorio.save(usuario);
 		usuario.setNome("Luigi2");
 		usuarioRepositorio.save(usuario);
@@ -64,15 +64,15 @@ public class UsuarioRepositorioTest {
 		Usuario doBanco = usuarioRepositorio.findById(usuario.getId()).get();
 		assertEquals("Luigi2", doBanco.getNome());
 		assertEquals("luigitosin@hotmail.com", doBanco.getEmail());
-		assertEquals("1234567890", "1234567890");
+		assertEquals("1234567890", doBanco.getSenha());
 		assertEquals(usuario.getPerfis(), perfis);
-//		assertEquals(usuario.getGranas(), new ArrayList<Grana>());
+		assertTrue(usuario.getGranas().isEmpty());
 		assertNull(usuario.getUltimoAcesso());
 	}
 
 	@Test
 	@Transactional
-	public void salvarUsuarioAdmin() throws Exception {
+	void salvarUsuarioAdmin() throws Exception {
 		usuario.adicionarPerfil(Perfil.ADMIN);
 		usuario = usuarioRepositorio.save(usuario);
 
@@ -83,9 +83,9 @@ public class UsuarioRepositorioTest {
 		Usuario doBanco = usuarioRepositorio.findById(usuario.getId()).get();
 		assertEquals("Luigi", doBanco.getNome());
 		assertEquals("luigitosin@hotmail.com", doBanco.getEmail());
-		assertEquals("1234567890", "1234567890");
+		assertEquals("1234567890", doBanco.getSenha());
 		assertEquals(usuario.getPerfis(), perfis);
-//		assertEquals(usuario.getGranas(), new ArrayList<Grana>());
+		assertTrue(usuario.getGranas().isEmpty());
 		assertNull(usuario.getUltimoAcesso());
 	}
 }

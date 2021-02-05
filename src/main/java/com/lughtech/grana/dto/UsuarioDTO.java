@@ -2,30 +2,19 @@ package com.lughtech.grana.dto;
 
 import java.io.Serializable;
 
-import javax.validation.constraints.NotEmpty;
-
-import org.hibernate.validator.constraints.Length;
-
 import com.lughtech.grana.dominio.Usuario;
-import com.lughtech.grana.servicos.validacao.UsuarioInsercao;
 
-@UsuarioInsercao
 public class UsuarioDTO implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	private Integer id;
-	@NotEmpty(message = "Nome não pode ser vazio")
-	@Length(min = 5, max = 50, message = "Nome deve ter entre 5 e 50 caracteres")
 	private String nome;
-	@NotEmpty(message = "Senha não pode ser vazia")
-	@Length(min = 8, message = "Senha deve ter no mínimo 8 caraceres")
 	private String senha;
-	@NotEmpty(message = "Email não pode ser vazio")
 	private String email;
 
 	public UsuarioDTO() {
-		
+
 	}
 
 	public UsuarioDTO(Usuario usuario) {

@@ -4,8 +4,6 @@ import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -36,7 +34,7 @@ public class GastoPessoaRecurso {
 	}
 
 	@PostMapping
-	public ResponseEntity<Void> inserirGasto(@Valid @RequestBody GastoPessoaDTO gastoPessoaDTO) {
+	public ResponseEntity<Void> inserirGasto(@RequestBody GastoPessoaDTO gastoPessoaDTO) {
 		GastoPessoa gastoPessoa = gastoPessoaServico.deUmDTO(gastoPessoaDTO);
 		gastoPessoa = gastoPessoaServico.salvarGastoPessoa(gastoPessoa);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(gastoPessoa.getIdGastoPessoa()).toUri();
@@ -44,7 +42,7 @@ public class GastoPessoaRecurso {
 	}
 
 	@PutMapping(value = "/{id}")
-	public ResponseEntity<Void> atualizarGasto(@Valid @RequestBody GastoPessoaDTO gastoPessoaDTO, @PathVariable Integer id) {
+	public ResponseEntity<Void> atualizarGasto(@RequestBody GastoPessoaDTO gastoPessoaDTO, @PathVariable Integer id) {
 		GastoPessoa gastoPessoa = gastoPessoaServico.deUmDTO(gastoPessoaDTO);
 		gastoPessoa.setIdGastoPessoa(id);
 		gastoPessoa = gastoPessoaServico.atualizarGastoPessoa(gastoPessoa);

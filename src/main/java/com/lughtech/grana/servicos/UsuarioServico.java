@@ -15,11 +15,13 @@ import org.springframework.stereotype.Service;
 import com.lughtech.grana.dominio.Usuario;
 import com.lughtech.grana.dominio.enumerados.Perfil;
 import com.lughtech.grana.dto.UsuarioDTO;
+import com.lughtech.grana.redis.RedisMessagePublisher;
 import com.lughtech.grana.repositorio.UsuarioRepositorio;
 import com.lughtech.grana.seguranca.UsuarioSpringSecurity;
 import com.lughtech.grana.servicos.excecoes.AutorizacaoException;
 import com.lughtech.grana.servicos.excecoes.IntegridadeDeDadosException;
 import com.lughtech.grana.servicos.excecoes.ObjetoNaoEncontradoException;
+import com.lughtech.grana.utilitarios.EmailUtils;
 
 @Service
 public class UsuarioServico {
@@ -28,6 +30,8 @@ public class UsuarioServico {
 	private UsuarioRepositorio usuarioRepositorio;
 	@Autowired
 	private BCryptPasswordEncoder codificadorDeSenha;
+	@Autowired
+	private RedisMessagePublisher messageGateway;
 
 	public Usuario buscarUsuarioPorId(Integer id) {
 		UsuarioSpringSecurity usuarioAtual = UsuarioLogadoServico.usuarioLogado();
@@ -53,6 +57,7 @@ public class UsuarioServico {
 	public Usuario salvarUsuario(Usuario usuario) {
 		usuario.setId(null);
 		usuario.setCriadoEm(new Timestamp(System.currentTimeMillis()));
+		messageGateway.publish(EmailUtils.criarEmailNovoUsuario());
 		return usuarioRepositorio.save(usuario);
 	}
 

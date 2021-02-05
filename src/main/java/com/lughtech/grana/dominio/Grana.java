@@ -15,7 +15,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 public class Grana implements Serializable {
@@ -39,7 +38,7 @@ public class Grana implements Serializable {
 	private String codigoDeAcesso;
 
 	@OneToMany(mappedBy = "grana")
-	@JsonManagedReference
+	@JsonIgnore
 	private Set<Gasto> gastos = new HashSet<>();
 
 	public Grana() {

@@ -3,8 +3,6 @@ package com.lughtech.grana.recursos;
 import java.net.URI;
 import java.util.List;
 
-import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -41,7 +39,7 @@ public class PessoaRecurso {
 	}
 
 	@PostMapping
-	public ResponseEntity<Void> inserirPessoa(@Valid @RequestBody PessoaDTO pessoaDTO) {
+	public ResponseEntity<Void> inserirPessoa(@RequestBody PessoaDTO pessoaDTO) {
 		Pessoa novaPessoa = pessoaServico.deUmDTO(pessoaDTO);
 		novaPessoa = pessoaServico.salvarPessoa(novaPessoa);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(novaPessoa.getId()).toUri();
@@ -49,7 +47,7 @@ public class PessoaRecurso {
 	}
 
 	@PutMapping(value = "/{id}")
-	public ResponseEntity<Void> atualizarPessoa(@Valid @RequestBody PessoaDTO pessoaDTO, @PathVariable Integer id) {
+	public ResponseEntity<Void> atualizarPessoa(@RequestBody PessoaDTO pessoaDTO, @PathVariable Integer id) {
 		Pessoa pessoa = pessoaServico.deUmDTO(pessoaDTO);
 		pessoa.setId(id);
 		pessoaServico.atualizarPessoa(pessoa);

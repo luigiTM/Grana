@@ -3,10 +3,6 @@ package com.lughtech.grana.dto;
 import java.io.Serializable;
 import java.sql.Timestamp;
 
-import javax.validation.constraints.NotEmpty;
-
-import org.hibernate.validator.constraints.Length;
-
 import com.lughtech.grana.dominio.Grana;
 
 public class GranaDto implements Serializable {
@@ -14,8 +10,6 @@ public class GranaDto implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private Integer id;
-	@NotEmpty(message = "Nome do Grana não pode ser vazio")
-	@Length(min = 1, max = 50, message = "Nome do Grana não pode ter mais que 50 caracteres")
 	private String nome;
 	private Integer usuario;
 	private String codigoDeAcesso;

@@ -1,7 +1,6 @@
 package com.lughtech.grana.recursos;
 
 import javax.servlet.http.HttpServletResponse;
-import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -36,8 +35,8 @@ public class AutenticacaoRecurso {
 	}
 
 	@PostMapping(value = "/esqueciSenha")
-	public ResponseEntity<Void> forgot(@Valid @RequestBody EmailDto emailDTO) {
-		autenticadorServico.enviarNovaSenha(emailDTO.getEmail());
+	public ResponseEntity<Void> forgot(@RequestBody EmailDto emailDTO) {
+		autenticadorServico.enviarNovaSenha(emailDTO.getPara());
 		return ResponseEntity.noContent().build();
 	}
 

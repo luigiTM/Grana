@@ -3,8 +3,6 @@ package com.lughtech.grana.recursos;
 import java.net.URI;
 import java.util.List;
 
-import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -41,7 +39,7 @@ public class GastoRecurso {
 	}
 
 	@PostMapping
-	public ResponseEntity<Void> inserirGasto(@Valid @RequestBody GastoDTO gastoDTO) {
+	public ResponseEntity<Void> inserirGasto(@RequestBody GastoDTO gastoDTO) {
 		Gasto gasto = gastoServico.deUmDTO(gastoDTO);
 		gasto = gastoServico.salvarGasto(gasto);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(gasto.getIdGasto()).toUri();
@@ -49,7 +47,7 @@ public class GastoRecurso {
 	}
 
 	@PutMapping(value = "/{id}")
-	public ResponseEntity<Void> atualizarGasto(@Valid @RequestBody GastoDTO gastoDTO, @PathVariable Integer id) {
+	public ResponseEntity<Void> atualizarGasto(@RequestBody GastoDTO gastoDTO, @PathVariable Integer id) {
 		Gasto gasto = gastoServico.deUmDTO(gastoDTO);
 		gasto.setIdGasto(id);
 		gastoServico.atualizarGasto(gasto);

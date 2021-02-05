@@ -2,8 +2,6 @@ package com.lughtech.grana.recursos;
 
 import java.net.URI;
 
-import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -42,7 +40,7 @@ public class GranaRecurso {
 	}
 
 	@PostMapping
-	public ResponseEntity<Void> inserirGrana(@Valid @RequestBody GranaDto granaDTO) {
+	public ResponseEntity<Void> inserirGrana(@RequestBody GranaDto granaDTO) {
 		Grana novoGrana = granaServico.deUmDTO(granaDTO);
 		novoGrana = granaServico.salvarGrana(novoGrana);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(novoGrana.getIdGrana()).toUri();
@@ -50,7 +48,7 @@ public class GranaRecurso {
 	}
 
 	@PutMapping(value = "/{id}")
-	public ResponseEntity<Void> atualizarGrana(@Valid @RequestBody GranaDto granaDTO, @PathVariable Integer id) {
+	public ResponseEntity<Void> atualizarGrana(@RequestBody GranaDto granaDTO, @PathVariable Integer id) {
 		Grana grana = granaServico.deUmDTO(granaDTO);
 		grana.setIdGrana(id);
 		granaServico.atualizarGrana(grana);

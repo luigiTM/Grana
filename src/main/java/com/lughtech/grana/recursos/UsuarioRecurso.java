@@ -4,8 +4,6 @@ import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -45,7 +43,7 @@ public class UsuarioRecurso {
 	}
 
 	@PostMapping
-	public ResponseEntity<Void> inserirUsuario(@Valid @RequestBody UsuarioDTO usuarioDTO) {
+	public ResponseEntity<Void> inserirUsuario(@RequestBody UsuarioDTO usuarioDTO) {
 		Usuario usuario = usuarioServico.deUmDTO(usuarioDTO);
 		usuario = usuarioServico.salvarUsuario(usuario);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(usuario.getId()).toUri();
@@ -53,7 +51,7 @@ public class UsuarioRecurso {
 	}
 
 	@PutMapping(value = "/{id}")
-	public ResponseEntity<Void> atualizarUsuario(@Valid @RequestBody UsuarioDTO usuarioDTO, @PathVariable Integer id) {
+	public ResponseEntity<Void> atualizarUsuario(@RequestBody UsuarioDTO usuarioDTO, @PathVariable Integer id) {
 		Usuario usuario = usuarioServico.deUmDTO(usuarioDTO);
 		usuario.setId(id);
 		usuarioServico.atualizarUsuario(usuario);

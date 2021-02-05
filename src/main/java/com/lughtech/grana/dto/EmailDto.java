@@ -1,29 +1,53 @@
 package com.lughtech.grana.dto;
 
-import java.io.Serializable;
+public class EmailDto {
 
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotEmpty;
-
-public class EmailDto implements Serializable {
-	private static final long serialVersionUID = 1L;
-
-	@NotEmpty(message = "Preenchimento obrigatório")
-	@Email(message = "Email inválido")
-	private String email;
+	String de;
+	String para;
+	String assunto;
+	String conteudo;
 
 	public EmailDto() {
+		super();
 	}
 
-	public EmailDto(String email) {
-		this.email = email;
+	public EmailDto(String de, String para, String assunto, String conteudo) {
+		this.de = de;
+		this.para = para;
+		this.assunto = assunto;
+		this.conteudo = conteudo;
 	}
 
-	public String getEmail() {
-		return email;
+	public String getDe() {
+		return de;
 	}
 
-	public void setEmail(String email) {
-		this.email = email;
+	public void setDe(String de) {
+		this.de = de;
 	}
+
+	public String getPara() {
+		return para;
+	}
+
+	public void setPara(String para) {
+		this.para = para;
+	}
+
+	public String getAssunto() {
+		return assunto;
+	}
+
+	public void setAssunto(String assunto) {
+		this.assunto = assunto;
+	}
+
+	public String getConteudo() {
+		return conteudo;
+	}
+
+	public void setConteudo(String conteudo) {
+		this.conteudo = conteudo;
+	}
+
 }

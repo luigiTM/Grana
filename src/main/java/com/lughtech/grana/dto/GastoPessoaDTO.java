@@ -3,9 +3,7 @@ package com.lughtech.grana.dto;
 import java.io.Serializable;
 
 import com.lughtech.grana.dominio.GastoPessoa;
-import com.lughtech.grana.servicos.validacao.GastoPessoaInsercao;
 
-@GastoPessoaInsercao
 public class GastoPessoaDTO implements Serializable {
 
 	private static final long serialVersionUID = 1L;

@@ -7,8 +7,10 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.lughtech.grana.dominio.Usuario;
+import com.lughtech.grana.redis.RedisMessagePublisher;
 import com.lughtech.grana.repositorio.UsuarioRepositorio;
 import com.lughtech.grana.servicos.excecoes.ObjetoNaoEncontradoException;
+import com.lughtech.grana.utilitarios.EmailUtils;
 
 @Service
 public class AutenticadorServico {
@@ -17,6 +19,8 @@ public class AutenticadorServico {
 	private UsuarioRepositorio usuarioRepositorio;
 	@Autowired
 	private BCryptPasswordEncoder codificadorDeSenha;
+	@Autowired
+	private RedisMessagePublisher messageGateway;
 
 	private Random aleatorio;
 
@@ -27,6 +31,7 @@ public class AutenticadorServico {
 		}
 		String novaSenha = gerarNovaSenha();
 		usuario.setSenha(codificadorDeSenha.encode(novaSenha));
+		messageGateway.publish(EmailUtils.criarEmailNovaSenha());
 		usuarioRepositorio.save(usuario);
 	}
 
