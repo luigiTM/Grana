@@ -12,14 +12,14 @@ import com.fasterxml.jackson.databind.ObjectWriter;
 import com.lughtech.grana.dto.EmailDto;
 
 @Service
-public class RedisMessagePublisher {
+public class PublicadorDeMensagensRedis {
 
 	@Autowired
 	private RedisTemplate<String, String> redisTemplate;
 
 	private static final String STREAM_KEY = "emails";
 
-	public RedisMessagePublisher() {
+	public PublicadorDeMensagensRedis() {
 	}
 
 	public void publish(EmailDto email) {

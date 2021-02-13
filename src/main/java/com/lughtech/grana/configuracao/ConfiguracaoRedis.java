@@ -1,5 +1,6 @@
 package com.lughtech.grana.configuracao;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
@@ -8,13 +9,19 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 @Configuration
-public class RedisConfig {
+public class ConfiguracaoRedis {
+
+	@Value("${redis.stream.port}")
+	private int redisPort;
+
+	@Value("${redis.stream.hostname}")
+	private String redisHostname;
 
 	@Bean
 	LettuceConnectionFactory lettuceConnectionFactory() {
 		RedisStandaloneConfiguration config = new RedisStandaloneConfiguration();
-		config.setHostName("172.23.188.133");
-		config.setPort(6379);
+		config.setHostName(redisHostname);
+		config.setPort(redisPort);
 		return new LettuceConnectionFactory(config);
 	}
 

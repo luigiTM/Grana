@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 import com.lughtech.grana.dominio.Usuario;
 import com.lughtech.grana.dominio.enumerados.Perfil;
 import com.lughtech.grana.dto.UsuarioDTO;
-import com.lughtech.grana.redis.RedisMessagePublisher;
+import com.lughtech.grana.redis.PublicadorDeMensagensRedis;
 import com.lughtech.grana.repositorio.UsuarioRepositorio;
 import com.lughtech.grana.seguranca.UsuarioSpringSecurity;
 import com.lughtech.grana.servicos.excecoes.AutorizacaoException;
@@ -31,7 +31,7 @@ public class UsuarioServico {
 	@Autowired
 	private BCryptPasswordEncoder codificadorDeSenha;
 	@Autowired
-	private RedisMessagePublisher messageGateway;
+	private PublicadorDeMensagensRedis messageGateway;
 
 	public Usuario buscarUsuarioPorId(Integer id) {
 		UsuarioSpringSecurity usuarioAtual = UsuarioLogadoServico.usuarioLogado();
